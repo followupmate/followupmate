@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FollowUpMate – AI asistent, ktorý nikdy nezabudne na follow-up</title>
+    <meta name="description" content="Automaticky vytvárajte a odosielajte personalizované follow-upy. Žiadne stratené zákazky, žiadny stres.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Bricolage+Grotesque:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --secondary: #8b5cf6;
+            --accent: #a78bfa;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --gray-dark: #1e293b;
+            --gray: #475569;
+            --gray-light: #64748b;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border: #e2e8f0;
+            --purple-gradient-start: #7c3aed;
+            --purple-gradient-end: #a78bfa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--dark);
+            background: var(--bg-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+        }
+
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+        }
+
+        .logo-text {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-cta {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.75rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Section Container */
+        .section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-narrow {
+            max-width: 900px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            color: white;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            padding: 1.1rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            background: #f8fafc;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 1.1rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-note-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Solution Section */
+        h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .solution-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+        }
+
+        .solution-step h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .solution-step p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Target Audience Section */
+        .target-section {
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            color: white;
+        }
+
+        .target-section h2 {
+            color: white;
+        }
+
+        .target-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            list-style: none;
+            margin-top: 3rem;
+        }
+
+        .target-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .target-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .target-item::before {
+            content: "✓";
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            background: var(--bg-light);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .pricing-card.popular {
+            border: 3px solid var(--primary);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pricing-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price span {
+            font-size: 1.5rem;
+            color: var(--gray);
+        }
+
+        .pricing-description {
+            color: var(--gray-light);
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            color: var(--gray);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .pricing-button:hover {
+            background: var(--gray-dark);
+            transform: scale(1.03);
+        }
+
+        .pricing-card.popular .pricing-button {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+        .pricing-card.popular .pricing-button:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+
+        /* Free Trial CTA */
+        .free-trial {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+        }
+
+        .free-trial h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .free-trial p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .free-trial .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .free-trial .btn-primary:hover {
+            background: #f8fafc;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--bg-light);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: white;
+            border: none;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: var(--bg-light);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            color: white;
+        }
+
+        .final-cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        .final-cta-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .final-cta-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--bg-light);
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 3rem auto 0;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero {
+                padding-top: 4rem;
+                padding-bottom: 4rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .pricing-grid,
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                padding: 0.75rem 1rem;
+                gap: 0.5rem;
+            }
+
+            .logo {
+                gap: 0.5rem;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+            }
+
+            .logo-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .logo-text {
+                font-size: 1.1rem;
+            }
+
+            .nav-cta {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+                border-radius: 8px;
+            }
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 8L10.89 13.26C11.5786 13.7166 12.4214 13.7166 13.11 13.26L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">FollowUpMate</span>
+            </a>
+            <a href="#start" class="nav-cta">Začať zadarmo →</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="section hero-content">
+            <div class="hero-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                AI follow-ups that never forget
+            </div>
+            <h1>
+                FollowUpMate – AI asistent,<br>
+                ktorý nikdy nezabudne<br>
+                na follow-up
+            </h1>
+            <p class="hero-description">
+                Už žiadne stratené zákazky. FollowUpMate automaticky vytvorí a odošle personalizované follow-upy za vás – presne vtedy, keď treba.
+            </p>
+            <div class="hero-buttons">
+                <a href="#start" class="btn-primary">
+                    Začať zadarmo
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#how-it-works" class="btn-secondary">
+                    Ako to funguje
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-note">
+                <div class="hero-note-item">
+                    <span>✓</span> Nastavenie do 5 minút
+                </div>
+                <div class="hero-note-item">
+                    <span>✓</span> Bez platobnej karty
+                </div>
+                <div class="hero-note-item">
+                    <span>✓</span> Prvý follow-up zadarmo
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Solution Section -->
+    <section id="how-it-works" class="section animate-on-scroll">
+        <h2>FollowUpMate to vyrieši za vás</h2>
+        <div class="solution-grid">
+            <div class="solution-step">
+                <div class="step-number">1</div>
+                <h3>Nahráte informácie</h3>
+                <p>Email od klienta, poznámky z meetingu, alebo PDF ponuky. Stačí copy-paste.</p>
+            </div>
+            <div class="solution-step">
+                <div class="step-number">2</div>
+                <h3>AI vytvorí follow-up</h3>
+                <p>FollowUpMate analyzuje kontext a napíše personalizovaný follow-up email v slovenčine alebo angličtine.</p>
+            </div>
+            <div class="solution-step">
+                <div class="step-number">3</div>
+                <h3>Odošlete za 10 sekúnd</h3>
+                <p>Skontrolujete, upravíte ak treba, a odošlete. Alebo nastavíte automatické odoslanie.</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Target Audience Section -->
+    <section class="target-section section animate-on-scroll">
+        <h2>Ideálne pre:</h2>
+        <ul class="target-list">
+            <li class="target-item">Služby – advokáti, autoservisy, strecháči, grafici</li>
+            <li class="target-item">B2B obchodníci – energetika, stavebníctvo, IT</li>
+            <li class="target-item">Agentúry – marketing, web design, PR</li>
+            <li class="target-item">Konzultanti a freelanceri – ktorí riešia desiatky klientov</li>
+            <li class="target-item">E-shopy – follow-up na opustené košíky</li>
+        </ul>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section section animate-on-scroll">
+        <h2>Transparentné ceny. Žiadne prekvapenia.</h2>
+        <div class="pricing-grid">
+            <!-- Starter -->
+            <div class="pricing-card">
+                <div class="pricing-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: 700; font-size: 1.2rem;">S</div>
+                <h3 class="pricing-title">Starter</h3>
+                <div class="pricing-price">9<span>€</span></div>
+                <p class="pricing-description">Ideálne na vyskúšanie</p>
+                <ul class="pricing-features">
+                    <li>3 follow-upy</li>
+                    <li>Slovenčina + angličtina</li>
+                    <li>AI personalizácia</li>
+                    <li>Email podpora</li>
+                </ul>
+                <a href="https://buy.stripe.com/test_cNi14m82i90z63G7Qi" class="pricing-button" target="_blank">Vyskúšať Starter →</a>
+            </div>
+
+            <!-- Business (Popular) -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">⭐ NAJPOPULÁRNEJŠIE</div>
+                <div class="pricing-icon" style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: 700; font-size: 1.2rem;">B</div>
+                <h3 class="pricing-title">Business</h3>
+                <div class="pricing-price">29<span>€</span></div>
+                <p class="pricing-description">Najlepšia hodnota</p>
+                <ul class="pricing-features">
+                    <li>10 follow-upov</li>
+                    <li>Slovenčina + angličtina</li>
+                    <li>AI personalizácia</li>
+                    <li>Prioritná podpora</li>
+                    <li>Šablóny emailov</li>
+                </ul>
+                <a href="https://buy.stripe.com/test_5kQeVcgyO0u3ajW8Um" class="pricing-button" target="_blank">Kúpiť Business →</a>
+            </div>
+
+            <!-- Pro -->
+            <div class="pricing-card">
+                <div class="pricing-icon" style="background: linear-gradient(135deg, #10b981, #059669); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: 700; font-size: 1.2rem;">P</div>
+                <h3 class="pricing-title">Pro</h3>
+                <div class="pricing-price">79<span>€</span></div>
+                <p class="pricing-description">Pre aktívnych obchodníkov</p>
+                <ul class="pricing-features">
+                    <li>30 follow-upov</li>
+                    <li>Slovenčina + angličtina</li>
+                    <li>AI personalizácia</li>
+                    <li>Prioritná podpora</li>
+                    <li>Šablóny emailov</li>
+                    <li>Automatické pripomienky</li>
+                </ul>
+                <a href="https://buy.stripe.com/test_28EbJ082i90z4ZC0nQ" class="pricing-button" target="_blank">Kúpiť Pro →</a>
+            </div>
+        </div>
+
+        <!-- Free Trial CTA -->
+        <div class="free-trial">
+            <h3>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                Alebo skúste ZDARMA
+            </h3>
+            <p>Prvý follow-up zadarmo. Vyskúšajte si FollowUpMate bez rizika.</p>
+            <a href="#start" class="btn-primary">Vyskúšať zadarmo →</a>
+        </div>
+    </section>
+
+
+
+    <!-- FAQ Section -->
+    <section class="faq-section section animate-on-scroll">
+        <h2>Časté otázky</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">Ako dlho trvá nastavenie?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Menej ako 5 minút. Vyplníte formulár, my nastavíme všetko ostatné.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Potrebujem technické znalosti?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Vôbec nie. Ak viete poslať email, zvládnete FollowUpMate.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Môžem follow-up upraviť pred odoslaním?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Áno! Vždy dostanete návrh, ktorý môžete upraviť alebo odoslať ako je.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Čo ak mi nevyhovuje email, ktorý AI vytvorila?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Jednoducho ho upravíte. Alebo nám napíšte a my vám pomôžeme.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Ako funguje platba?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Cez Stripe. Bezpečne a jednoducho. Platíte len za follow-upy, ktoré potrebujete.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Môžem zrušiť kedykoľvek?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Áno. Žiadne záväzky, žiadne automatické obnovenia.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta-section section animate-on-scroll">
+        <h2>Prestaňte strácať zákazky</h2>
+        <p class="final-cta-description">Každý deň bez follow-upu je stratená príležitosť. Začnite dnes.</p>
+        <a href="#start" class="btn-primary" style="background: white; color: var(--primary);">Vyskúšať zadarmo →</a>
+        <div class="final-cta-features">
+            <div class="final-cta-feature">
+                <span>✓</span> Prvý follow-up zadarmo
+            </div>
+            <div class="final-cta-feature">
+                <span>✓</span> Nastavenie do 5 minút
+            </div>
+            <div class="final-cta-feature">
+                <span>✓</span> Bez platobnej karty
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section (Tally Integration) -->
+    <section id="start" class="form-section section animate-on-scroll">
+        <h2>Začnite teraz</h2>
+        <div class="form-container">
+            <iframe 
+                data-tally-src="https://tally.so/embed/PddPX5?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+                loading="lazy" 
+                width="100%" 
+                height="600" 
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0" 
+                title="FollowUpMate - Začať zadarmo"
+                style="border: none; min-height: 600px;">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 FollowUpMate. Všetky práva vyhradené.</p>
+    </footer>
+
+    <!-- Tally Widget Script -->
+    <script>
+        var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}
+    </script>
+
+    <!-- FAQ Accordion Script -->
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-question').classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    button.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
