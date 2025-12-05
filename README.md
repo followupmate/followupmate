@@ -8,7 +8,7 @@ FollowUpMate pomáha podnikateľom, freelancerom a B2B obchodníkom automaticky 
 
 ## 🌐 Live Demo
 
-**[followupmate.github.io/followupmate-pricing](https://followupmate.github.io/followupmate-pricing)**
+****
 
 ## ✨ Features
 
