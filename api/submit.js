@@ -1,9 +1,9 @@
 // FollowUpMate - Main API Endpoint
-// Handles form submission, AI generation, and email sending
+// Vercel Serverless Function
 
-import Anthropic from '@anthropic-ai/sdk';
-import { createClient } from '@supabase/supabase-js';
-import { Resend } from 'resend';
+const Anthropic = require('@anthropic-ai/sdk').default;
+const { createClient } = require('@supabase/supabase-js');
+const { Resend } = require('resend');
 
 // Initialize clients
 const anthropic = new Anthropic({
@@ -17,15 +17,12 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// CORS headers
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json',
-};
+module.exports = async function handler(req, res) {
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export default async function handler(req, res) {
   // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).json({ ok: true });
@@ -106,7 +103,7 @@ export default async function handler(req, res) {
       : `Your follow-up email is ready${client_name ? ` for ${client_name}` : ''}`;
 
     const { data: emailData, error: emailError } = await resend.emails.send({
-      from: 'FollowUpMate <followup@followupmate.sk>',
+      from: 'FollowUpMate <onboarding@resend.dev>',
       to: email,
       subject: emailSubject,
       html: createEmailTemplate(name, followupEmail, language, client_name)
@@ -146,7 +143,7 @@ export default async function handler(req, res) {
       details: error.message
     });
   }
-}
+};
 
 // Helper: Create Claude prompt
 function createPrompt(name, clientName, clientInfo, language, businessType) {
@@ -170,7 +167,7 @@ Tvoja úloha: Vytvor profesionálny, personalizovaný follow-up email na základ
 7. Nepoužívaj klišé ako "dúfam že sa máte dobre"
 
 **Formát odpovede:**
-Vráť ŤLEN samotný email text, bez predmetu, bez podpisu (${name} sa podpíše sám).
+Vráť LEN samotný email text, bez predmetu, bez podpisu (${name} sa podpíše sám).
 Začni priamo textom emailu.
 
 Email:`;
@@ -301,7 +298,7 @@ function createEmailTemplate(name, followupEmail, language, clientName) {
     <div class="email-box">${followupEmail}</div>
 
     <div class="instructions">
-      <h3>${isslovak ? '📝 Ako na to:' : '📝 How to use:'}</h3>
+      <h3>${isSlovak ? '📝 Ako na to:' : '📝 How to use:'}</h3>
       <ol>
         <li>${isSlovak ? 'Skopírujte text vyššie' : 'Copy the text above'}</li>
         <li>${isSlovak ? 'Prečítajte si ho a prípadne upravte podľa seba' : 'Read it and customize if needed'}</li>
@@ -334,4 +331,3 @@ function createEmailTemplate(name, followupEmail, language, clientName) {
 </html>
   `;
 }
-
