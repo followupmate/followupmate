@@ -1,15 +1,14 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
-  ]
+  "name": "followupmate-backend",
+  "version": "1.0.0",
+  "description": "FollowUpMate Backend API",
+  "main": "api/submit.js",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "resend": "^3.0.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
 }
