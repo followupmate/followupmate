@@ -98,9 +98,7 @@ module.exports = async function handler(req, res) {
       .eq('id', submission.id);
 
     // 4. Send email via Resend
-    const emailSubject = language === 'sk' 
-      ? `Váš follow-up email je pripravený${client_name ? ` pre ${client_name}` : ''}`
-      : `Your follow-up email is ready${client_name ? ` for ${client_name}` : ''}`;
+    const emailSubject = getEmailSubject(language, client_name);
 
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: 'FollowUpMate <onboarding@resend.dev>',
@@ -128,9 +126,7 @@ module.exports = async function handler(req, res) {
     // 5. Return success
     return res.status(200).json({
       success: true,
-      message: language === 'sk' 
-        ? 'Follow-up email bol úspešne vygenerovaný a odoslaný na váš email!'
-        : 'Follow-up email has been generated and sent to your email!',
+      message: getSuccessMessage(language),
       submission_id: submission.id
     });
 
@@ -143,62 +139,309 @@ module.exports = async function handler(req, res) {
   }
 };
 
+// Helper: Get email subject based on language
+function getEmailSubject(language, clientName) {
+  const subjects = {
+    sk: `Váš follow-up email je pripravený${clientName ? ` pre ${clientName}` : ''}`,
+    en: `Your follow-up email is ready${clientName ? ` for ${clientName}` : ''}`,
+    cs: `Váš follow-up email je připraven${clientName ? ` pro ${clientName}` : ''}`,
+    de: `Ihre Follow-up-E-Mail ist fertig${clientName ? ` für ${clientName}` : ''}`,
+    pl: `Twój follow-up email jest gotowy${clientName ? ` dla ${clientName}` : ''}`,
+    hu: `A follow-up emailje kész${clientName ? ` ${clientName} számára` : ''}`,
+    es: `Tu correo de seguimiento está listo${clientName ? ` para ${clientName}` : ''}`
+  };
+  return subjects[language] || subjects['en'];
+}
+
+// Helper: Get success message based on language
+function getSuccessMessage(language) {
+  const messages = {
+    sk: 'Follow-up email bol úspešne vygenerovaný a odoslaný na váš email!',
+    en: 'Follow-up email has been generated and sent to your email!',
+    cs: 'Follow-up email byl úspěšně vygenerován a odeslán na váš email!',
+    de: 'Follow-up-E-Mail wurde erfolgreich generiert und an Ihre E-Mail gesendet!',
+    pl: 'Follow-up email został pomyślnie wygenerowany i wysłany na twój email!',
+    hu: 'A follow-up email sikeresen létrejött és elküldésre került az emailjére!',
+    es: '¡El correo de seguimiento se ha generado y enviado a tu correo electrónico!'
+  };
+  return messages[language] || messages['en'];
+}
+
 // Helper: Create Claude prompt
 function createPrompt(name, clientName, clientInfo, language, businessType) {
-  if (language === 'sk') {
-    return `Si profesionálny AI asistent pre tvorbu follow-up emailov. 
+  const prompts = {
+    sk: {
+      intro: 'Si profesionálny AI asistent pre tvorbu follow-up emailov.',
+      task: 'Tvoja úloha: Vytvor profesionálny, personalizovaný follow-up email na základe týchto informácií:',
+      sender: 'Odosielateľ',
+      businessType: 'Typ podnikania',
+      client: 'Klient',
+      situation: 'Situácia',
+      requirements: 'Požiadavky na email:',
+      req1: 'Musí byť v slovenčine',
+      req2: 'Profesionálny, ale priateľský tón',
+      req3: 'Stručný (max 150 slov)',
+      req4: 'Jasný call-to-action',
+      req5: 'Bez otáčania okolo horúcej kaše',
+      req6: 'Personalizovaný na základe situácie',
+      req7: 'Nepoužívaj klišé ako "dúfam že sa máte dobre"',
+      format: 'Formát odpovede:',
+      formatDesc: `Vráť LEN samotný email text, bez predmetu, bez podpisu (${name} sa podpíše sám). Začni priamo textom emailu.`
+    },
+    en: {
+      intro: 'You are a professional AI assistant for creating follow-up emails.',
+      task: 'Your task: Create a professional, personalized follow-up email based on this information:',
+      sender: 'Sender',
+      businessType: 'Business type',
+      client: 'Client',
+      situation: 'Situation',
+      requirements: 'Email requirements:',
+      req1: 'Must be in English',
+      req2: 'Professional but friendly tone',
+      req3: 'Concise (max 150 words)',
+      req4: 'Clear call-to-action',
+      req5: 'Straight to the point',
+      req6: 'Personalized based on the situation',
+      req7: 'Avoid clichés like "I hope this email finds you well"',
+      format: 'Response format:',
+      formatDesc: `Return ONLY the email body text, without subject line, without signature (${name} will sign it themselves). Start directly with the email text.`
+    },
+    cs: {
+      intro: 'Jsi profesionální AI asistent pro tvorbu follow-up emailů.',
+      task: 'Tvůj úkol: Vytvoř profesionální, personalizovaný follow-up email na základě těchto informací:',
+      sender: 'Odesílatel',
+      businessType: 'Typ podnikání',
+      client: 'Klient',
+      situation: 'Situace',
+      requirements: 'Požadavky na email:',
+      req1: 'Musí být v češtině',
+      req2: 'Profesionální, ale přátelský tón',
+      req3: 'Stručný (max 150 slov)',
+      req4: 'Jasná call-to-action',
+      req5: 'Bez zbytečných obalů',
+      req6: 'Personalizovaný podle situace',
+      req7: 'Nepoužívej klišé jako "doufám, že se máte dobře"',
+      format: 'Formát odpovědi:',
+      formatDesc: `Vrať JEN samotný text emailu, bez předmětu, bez podpisu (${name} se podepíše sám). Začni rovnou textem emailu.`
+    },
+    de: {
+      intro: 'Sie sind ein professioneller KI-Assistent für die Erstellung von Follow-up-E-Mails.',
+      task: 'Ihre Aufgabe: Erstellen Sie eine professionelle, personalisierte Follow-up-E-Mail basierend auf diesen Informationen:',
+      sender: 'Absender',
+      businessType: 'Geschäftstyp',
+      client: 'Kunde',
+      situation: 'Situation',
+      requirements: 'E-Mail-Anforderungen:',
+      req1: 'Muss auf Deutsch sein',
+      req2: 'Professioneller, aber freundlicher Ton',
+      req3: 'Prägnant (max 150 Wörter)',
+      req4: 'Klarer Call-to-Action',
+      req5: 'Direkt auf den Punkt',
+      req6: 'Personalisiert basierend auf der Situation',
+      req7: 'Vermeiden Sie Klischees wie "Ich hoffe, diese E-Mail erreicht Sie wohlauf"',
+      format: 'Antwortformat:',
+      formatDesc: `Geben Sie NUR den E-Mail-Text zurück, ohne Betreffzeile, ohne Signatur (${name} wird selbst unterschreiben). Beginnen Sie direkt mit dem E-Mail-Text.`
+    },
+    pl: {
+      intro: 'Jesteś profesjonalnym asystentem AI do tworzenia follow-up emaili.',
+      task: 'Twoje zadanie: Utwórz profesjonalny, spersonalizowany follow-up email na podstawie tych informacji:',
+      sender: 'Nadawca',
+      businessType: 'Typ działalności',
+      client: 'Klient',
+      situation: 'Sytuacja',
+      requirements: 'Wymagania dotyczące emaila:',
+      req1: 'Musi być po polsku',
+      req2: 'Profesjonalny, ale przyjazny ton',
+      req3: 'Zwięzły (max 150 słów)',
+      req4: 'Jasne wezwanie do działania',
+      req5: 'Od razu do rzeczy',
+      req6: 'Spersonalizowany na podstawie sytuacji',
+      req7: 'Unikaj frazesów typu "mam nadzieję, że masz się dobrze"',
+      format: 'Format odpowiedzi:',
+      formatDesc: `Zwróć TYLKO treść emaila, bez tematu, bez podpisu (${name} sam się podpisze). Zacznij bezpośrednio od treści emaila.`
+    },
+    hu: {
+      intro: 'Ön egy professzionális AI asszisztens follow-up emailek készítésére.',
+      task: 'Az Ön feladata: Készítsen professzionális, személyre szabott follow-up emailt az alábbi információk alapján:',
+      sender: 'Feladó',
+      businessType: 'Üzleti típus',
+      client: 'Ügyfél',
+      situation: 'Helyzet',
+      requirements: 'Email követelmények:',
+      req1: 'Magyarul kell lennie',
+      req2: 'Professzionális, de barátságos hangnem',
+      req3: 'Tömör (max 150 szó)',
+      req4: 'Világos cselekvésre ösztönzés',
+      req5: 'Egyenesen a lényegre',
+      req6: 'Személyre szabott a helyzet alapján',
+      req7: 'Kerülje a közhelyeket, mint "remélem jól van"',
+      format: 'Válasz formátum:',
+      formatDesc: `Csak az email szövegét adja vissza, tárgy nélkül, aláírás nélkül (${name} maga fogja aláírni). Kezdje közvetlenül az email szövegével.`
+    },
+    es: {
+      intro: 'Eres un asistente de IA profesional para crear correos electrónicos de seguimiento.',
+      task: 'Tu tarea: Crea un correo electrónico de seguimiento profesional y personalizado basado en esta información:',
+      sender: 'Remitente',
+      businessType: 'Tipo de negocio',
+      client: 'Cliente',
+      situation: 'Situación',
+      requirements: 'Requisitos del correo:',
+      req1: 'Debe estar en español',
+      req2: 'Tono profesional pero amigable',
+      req3: 'Conciso (máx 150 palabras)',
+      req4: 'Llamada a la acción clara',
+      req5: 'Directo al grano',
+      req6: 'Personalizado según la situación',
+      req7: 'Evita clichés como "espero que este correo te encuentre bien"',
+      format: 'Formato de respuesta:',
+      formatDesc: `Devuelve SOLO el texto del correo, sin asunto, sin firma (${name} lo firmará). Comienza directamente con el texto del correo.`
+    }
+  };
 
-Tvoja úloha: Vytvor profesionálny, personalizovaný follow-up email na základe týchto informácií:
+  const p = prompts[language] || prompts['en']; // Fallback to English
 
-**Odosielateľ**: ${name}
-**Typ podnikania**: ${businessType}
-**Klient**: ${clientName || 'nebol špecifikovaný'}
-**Situácia**: ${clientInfo}
+  return `${p.intro}
 
-**Požiadavky na email:**
-1. Musí byť v slovenčine
-2. Profesionálny, ale priateľský tón
-3. Stručný (max 150 slov)
-4. Jasný call-to-action
-5. Bez otáčania okolo horúcej kaše
-6. Personalizovaný na základe situácie
-7. Nepoužívaj klišé ako "dúfam že sa máte dobre"
+${p.task}
 
-**Formát odpovede:**
-Vráť LEN samotný email text, bez predmetu, bez podpisu (${name} sa podpíše sám).
-Začni priamo textom emailu.
+**${p.sender}**: ${name}
+**${p.businessType}**: ${businessType}
+**${p.client}**: ${clientName || p.client.toLowerCase() + ' not specified'}
+**${p.situation}**: ${clientInfo}
+
+**${p.requirements}**
+1. ${p.req1}
+2. ${p.req2}
+3. ${p.req3}
+4. ${p.req4}
+5. ${p.req5}
+6. ${p.req6}
+7. ${p.req7}
+
+**${p.format}**
+${p.formatDesc}
 
 Email:`;
-  } else {
-    return `You are a professional AI assistant for creating follow-up emails.
-
-Your task: Create a professional, personalized follow-up email based on this information:
-
-**Sender**: ${name}
-**Business type**: ${businessType}
-**Client**: ${clientName || 'not specified'}
-**Situation**: ${clientInfo}
-
-**Email requirements:**
-1. Must be in English
-2. Professional but friendly tone
-3. Concise (max 150 words)
-4. Clear call-to-action
-5. Straight to the point
-6. Personalized based on the situation
-7. Avoid clichés like "I hope this email finds you well"
-
-**Response format:**
-Return ONLY the email body text, without subject line, without signature (${name} will sign it themselves).
-Start directly with the email text.
-
-Email:`;
-  }
 }
 
 // Helper: Create email template
 function createEmailTemplate(name, followupEmail, language, clientName) {
-  const isSlovak = language === 'sk';
+  const texts = {
+    sk: {
+      ready: 'Váš follow-up je pripravený!',
+      hi: 'Ahoj',
+      hereIs: 'Tu je váš personalizovaný follow-up email',
+      for: 'pre',
+      howTo: 'Ako na to:',
+      step1: 'Skopírujte text vyššie',
+      step2: 'Prečítajte si ho a prípadne upravte podľa seba',
+      step3: 'Pridajte svoj podpis',
+      step4: 'Odošlite klientovi',
+      tip: 'Tip:',
+      tipText: 'Najlepšie výsledky dosiahnete, ak email odošlete do 24 hodín.',
+      needMore: 'Potrebujete viac follow-upov?',
+      viewPackages: 'Pozrieť balíky',
+      tagline: 'AI asistent, ktorý nikdy nezabudne na follow-up'
+    },
+    en: {
+      ready: 'Your follow-up is ready!',
+      hi: 'Hi',
+      hereIs: "Here's your personalized follow-up email",
+      for: 'for',
+      howTo: 'How to use:',
+      step1: 'Copy the text above',
+      step2: 'Read it and customize if needed',
+      step3: 'Add your signature',
+      step4: 'Send it to your client',
+      tip: 'Tip:',
+      tipText: 'Best results come from sending within 24 hours.',
+      needMore: 'Need more follow-ups?',
+      viewPackages: 'View Packages',
+      tagline: 'AI assistant that never forgets to follow up'
+    },
+    cs: {
+      ready: 'Váš follow-up je připraven!',
+      hi: 'Ahoj',
+      hereIs: 'Zde je váš personalizovaný follow-up email',
+      for: 'pro',
+      howTo: 'Jak na to:',
+      step1: 'Zkopírujte text výše',
+      step2: 'Přečtěte si ho a případně upravte podle sebe',
+      step3: 'Přidejte svůj podpis',
+      step4: 'Odešlete klientovi',
+      tip: 'Tip:',
+      tipText: 'Nejlepších výsledků dosáhnete, když email odešlete do 24 hodin.',
+      needMore: 'Potřebujete více follow-upů?',
+      viewPackages: 'Zobrazit balíčky',
+      tagline: 'AI asistent, který nikdy nezapomene na follow-up'
+    },
+    de: {
+      ready: 'Ihr Follow-up ist fertig!',
+      hi: 'Hallo',
+      hereIs: 'Hier ist Ihre personalisierte Follow-up-E-Mail',
+      for: 'für',
+      howTo: 'So verwenden Sie es:',
+      step1: 'Kopieren Sie den Text oben',
+      step2: 'Lesen Sie ihn und passen Sie ihn bei Bedarf an',
+      step3: 'Fügen Sie Ihre Signatur hinzu',
+      step4: 'Senden Sie es an Ihren Kunden',
+      tip: 'Tipp:',
+      tipText: 'Die besten Ergebnisse erzielen Sie, wenn Sie die E-Mail innerhalb von 24 Stunden senden.',
+      needMore: 'Benötigen Sie mehr Follow-ups?',
+      viewPackages: 'Pakete ansehen',
+      tagline: 'KI-Assistent, der nie vergisst nachzufassen'
+    },
+    pl: {
+      ready: 'Twój follow-up jest gotowy!',
+      hi: 'Cześć',
+      hereIs: 'Oto Twój spersonalizowany follow-up email',
+      for: 'dla',
+      howTo: 'Jak użyć:',
+      step1: 'Skopiuj tekst powyżej',
+      step2: 'Przeczytaj go i dostosuj w razie potrzeby',
+      step3: 'Dodaj swój podpis',
+      step4: 'Wyślij do klienta',
+      tip: 'Wskazówka:',
+      tipText: 'Najlepsze rezultaty osiągniesz, wysyłając email w ciągu 24 godzin.',
+      needMore: 'Potrzebujesz więcej follow-upów?',
+      viewPackages: 'Zobacz pakiety',
+      tagline: 'Asystent AI, który nigdy nie zapomina o follow-upie'
+    },
+    hu: {
+      ready: 'A follow-up kész!',
+      hi: 'Szia',
+      hereIs: 'Itt van a személyre szabott follow-up emailje',
+      for: 'számára',
+      howTo: 'Hogyan használd:',
+      step1: 'Másold ki a fenti szöveget',
+      step2: 'Olvasd el és szükség esetén módosítsd',
+      step3: 'Add hozzá az aláírásodat',
+      step4: 'Küldd el az ügyfélnek',
+      tip: 'Tipp:',
+      tipText: 'A legjobb eredményeket úgy éred el, ha 24 órán belül küldöd el az emailt.',
+      needMore: 'Több follow-upra van szükséged?',
+      viewPackages: 'Csomagok megtekintése',
+      tagline: 'AI asszisztens, amely soha nem felejt el követni'
+    },
+    es: {
+      ready: '¡Tu seguimiento está listo!',
+      hi: 'Hola',
+      hereIs: 'Aquí está tu correo de seguimiento personalizado',
+      for: 'para',
+      howTo: 'Cómo usarlo:',
+      step1: 'Copia el texto de arriba',
+      step2: 'Léelo y personalízalo si es necesario',
+      step3: 'Añade tu firma',
+      step4: 'Envíalo a tu cliente',
+      tip: 'Consejo:',
+      tipText: 'Los mejores resultados se obtienen enviándolo dentro de las 24 horas.',
+      needMore: '¿Necesitas más seguimientos?',
+      viewPackages: 'Ver paquetes',
+      tagline: 'Asistente de IA que nunca olvida hacer seguimiento'
+    }
+  };
+
+  const t = texts[language] || texts['en']; // Fallback to English
   
   return `
 <!DOCTYPE html>
@@ -283,46 +526,40 @@ function createEmailTemplate(name, followupEmail, language, clientName) {
 </head>
 <body>
   <div class="header">
-    <h1>✓ ${isSlovak ? 'Váš follow-up je pripravený!' : 'Your follow-up is ready!'}</h1>
+    <h1>✓ ${t.ready}</h1>
   </div>
 
   <div class="content">
-    <p>${isSlovak ? 'Ahoj' : 'Hi'} <strong>${name}</strong>,</p>
-    <p>${isSlovak 
-      ? `Tu je váš personalizovaný follow-up email${clientName ? ` pre <strong>${clientName}</strong>` : ''}:`
-      : `Here's your personalized follow-up email${clientName ? ` for <strong>${clientName}</strong>` : ''}:`
-    }</p>
+    <p>${t.hi} <strong>${name}</strong>,</p>
+    <p>${t.hereIs}${clientName ? ` ${t.for} <strong>${clientName}</strong>` : ''}:</p>
 
     <div class="email-box">${followupEmail}</div>
 
     <div class="instructions">
-      <h3>${isSlovak ? '📝 Ako na to:' : '📝 How to use:'}</h3>
+      <h3>📝 ${t.howTo}</h3>
       <ol>
-        <li>${isSlovak ? 'Skopírujte text vyššie' : 'Copy the text above'}</li>
-        <li>${isSlovak ? 'Prečítajte si ho a prípadne upravte podľa seba' : 'Read it and customize if needed'}</li>
-        <li>${isSlovak ? 'Pridajte svoj podpis' : 'Add your signature'}</li>
-        <li>${isSlovak ? 'Odošlite klientovi' : 'Send it to your client'}</li>
+        <li>${t.step1}</li>
+        <li>${t.step2}</li>
+        <li>${t.step3}</li>
+        <li>${t.step4}</li>
       </ol>
     </div>
 
     <p style="margin-top: 20px; font-size: 14px; color: #64748b;">
-      ${isSlovak 
-        ? '💡 <strong>Tip:</strong> Najlepšie výsledky dosiahnete, ak email odošlete do 24 hodín.'
-        : '💡 <strong>Tip:</strong> Best results come from sending within 24 hours.'
-      }
+      💡 <strong>${t.tip}</strong> ${t.tipText}
     </p>
   </div>
 
   <div class="footer">
     <p>
-      ${isSlovak ? 'Potrebujete viac follow-upov?' : 'Need more follow-ups?'}<br>
+      ${t.needMore}<br>
       <a href="https://followupmate.github.io/followupmate/#pricing" class="cta-button">
-        ${isSlovak ? 'Pozrieť balíky' : 'View Packages'}
+        ${t.viewPackages}
       </a>
     </p>
     <p style="margin-top: 20px;">
       <strong>FollowUpMate</strong><br>
-      ${isSlovak ? 'AI asistent, ktorý nikdy nezabudne na follow-up' : 'AI assistant that never forgets to follow up'}
+      ${t.tagline}
     </p>
   </div>
 </body>
