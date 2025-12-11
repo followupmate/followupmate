@@ -40,7 +40,8 @@ module.exports = async function handler(req, res) {
       language,
       client_name,
       client_info,
-      package: packageType
+      package: packageType,
+      template_type
     } = req.body;
 
     // Validation
@@ -62,6 +63,7 @@ module.exports = async function handler(req, res) {
           client_name: client_name || null,
           client_info,
           package: packageType || 'free',
+          template_type: template_type || 'generic',
           status: 'processing',
           created_at: new Date().toISOString()
         }
@@ -75,7 +77,7 @@ module.exports = async function handler(req, res) {
     }
 
     // 2. Generate follow-up email with Claude
-    const prompt = createPrompt(name, client_name, client_info, language, business_type);
+    const prompt = createPrompt(name, client_name, client_info, language, business_type, template_type);
     
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
@@ -167,8 +169,66 @@ function getSuccessMessage(language) {
   return messages[language] || messages['en'];
 }
 
-// Helper: Create Claude prompt
-function createPrompt(name, clientName, clientInfo, language, businessType) {
+// Helper: Create Claude prompt with template support
+function createPrompt(name, clientName, clientInfo, language, businessType, templateType) {
+  // Template-specific instructions per language
+  const templateInstructions = {
+    generic: {
+      sk: 'Vytvor všeobecný follow-up email.',
+      en: 'Create a general follow-up email.',
+      cs: 'Vytvoř všeobecný follow-up email.',
+      de: 'Erstellen Sie eine allgemeine Follow-up-E-Mail.',
+      pl: 'Utwórz ogólny follow-up email.',
+      hu: 'Készítsen általános follow-up emailt.',
+      es: 'Crea un correo de seguimiento general.'
+    },
+    meeting: {
+      sk: 'Vytvor follow-up po stretnutí alebo call. Zhrň kľúčové body z diskusie a navrhni ďalšie kroky.',
+      en: 'Create a follow-up after a meeting or call. Summarize key discussion points and propose next steps.',
+      cs: 'Vytvoř follow-up po schůzce nebo call. Shrň klíčové body diskuse a navrhni další kroky.',
+      de: 'Erstellen Sie ein Follow-up nach einem Meeting oder Anruf. Fassen Sie wichtige Diskussionspunkte zusammen und schlagen Sie nächste Schritte vor.',
+      pl: 'Utwórz follow-up po spotkaniu lub rozmowie. Podsumuj kluczowe punkty dyskusji i zaproponuj kolejne kroki.',
+      hu: 'Készítsen follow-upot egy találkozó vagy hívás után. Foglalja össze a megbeszélés főbb pontjait és javasoljon következő lépéseket.',
+      es: 'Crea un seguimiento después de una reunión o llamada. Resume los puntos clave de la discusión y propón los próximos pasos.'
+    },
+    quote: {
+      sk: 'Vytvor follow-up k predloženej cenovej ponuke. Jemne pripomeň ponuku, zdôrazni value a nabídni pomoc s rozhodnutím.',
+      en: 'Create a follow-up on a submitted quote/proposal. Gently remind about the offer, emphasize value, and offer help with the decision.',
+      cs: 'Vytvoř follow-up k předložené cenové nabídce. Jemně připomeň nabídku, zdůrazni hodnotu a nabídni pomoc s rozhodnutím.',
+      de: 'Erstellen Sie ein Follow-up zu einem eingereichten Angebot. Erinnern Sie sanft an das Angebot, betonen Sie den Wert und bieten Sie Hilfe bei der Entscheidung an.',
+      pl: 'Utwórz follow-up do złożonej oferty cenowej. Delikatnie przypomnij o ofercie, podkreśl wartość i zaproponuj pomoc w podjęciu decyzji.',
+      hu: 'Készítsen follow-upot egy benyújtott árajánlathoz. Finoman emlékeztessen az ajánlatra, hangsúlyozza az értéket és kínáljon segítséget a döntéshez.',
+      es: 'Crea un seguimiento sobre una cotización presentada. Recuerda amablemente la oferta, enfatiza el valor y ofrece ayuda con la decisión.'
+    },
+    cold: {
+      sk: 'Vytvor prvý kontaktný email (cold outreach). Predstav value proposition, vybuduj dôveru a jasne povedz prečo píšeš.',
+      en: 'Create a first contact email (cold outreach). Introduce your value proposition, build trust, and clearly state why you\'re reaching out.',
+      cs: 'Vytvoř první kontaktní email (cold outreach). Představ value proposition, vybuduj důvěru a jasně řekni proč píšeš.',
+      de: 'Erstellen Sie eine Erstkontakt-E-Mail (Cold Outreach). Stellen Sie Ihr Wertversprechen vor, bauen Sie Vertrauen auf und erklären Sie klar, warum Sie sich melden.',
+      pl: 'Utwórz pierwszy email kontaktowy (cold outreach). Przedstaw propozycję wartości, zbuduj zaufanie i jasno powiedz dlaczego piszesz.',
+      hu: 'Készítsen első kapcsolatfelvételi emailt (cold outreach). Mutassa be az értékajánlatot, építsen bizalmat és világosan mondja el, miért ír.',
+      es: 'Crea un correo de primer contacto (cold outreach). Presenta tu propuesta de valor, construye confianza y declara claramente por qué te contactas.'
+    },
+    reminder: {
+      sk: 'Vytvor jemnú pripomienku. Buď uhladený, nie natieravý. Ponúkni pomoc namiesto tlačenia.',
+      en: 'Create a gentle reminder. Be polite, not pushy. Offer help instead of pressure.',
+      cs: 'Vytvoř jemnou připomínku. Buď slušný, ne dotěrný. Nabídni pomoc místo tlaku.',
+      de: 'Erstellen Sie eine sanfte Erinnerung. Seien Sie höflich, nicht aufdringlich. Bieten Sie Hilfe statt Druck an.',
+      pl: 'Utwórz delikatne przypomnienie. Bądź uprzejmy, nie nachalny. Zaproponuj pomoc zamiast wywierać presję.',
+      hu: 'Készítsen finom emlékeztetőt. Legyen udvarias, ne tolakodó. Kínáljon segítséget nyomás helyett.',
+      es: 'Crea un recordatorio amable. Sé cortés, no insistente. Ofrece ayuda en lugar de presión.'
+    },
+    thankyou: {
+      sk: 'Vytvor email s poďakovaním po úspešnej spolupráci. Vyjadrí vďačnosť, zhodnoť výsledky a navrhni pokračovanie spolupráce.',
+      en: 'Create a thank you email after successful collaboration. Express gratitude, evaluate results, and suggest continuing the partnership.',
+      cs: 'Vytvoř email s poděkováním po úspěšné spolupráci. Vyjádři vděčnost, zhodnoť výsledky a navrhni pokračování spolupráce.',
+      de: 'Erstellen Sie eine Dankes-E-Mail nach erfolgreicher Zusammenarbeit. Drücken Sie Dankbarkeit aus, bewerten Sie Ergebnisse und schlagen Sie eine Fortsetzung der Partnerschaft vor.',
+      pl: 'Utwórz email z podziękowaniem po udanej współpracy. Wyraź wdzięczność, oceń wyniki i zaproponuj kontynuację współpracy.',
+      hu: 'Készítsen köszönő emailt sikeres együttműködés után. Fejezze ki háláját, értékelje az eredményeket és javasolja a partnerség folytatását.',
+      es: 'Crea un correo de agradecimiento después de una colaboración exitosa. Expresa gratitud, evalúa resultados y sugiere continuar la asociación.'
+    }
+  };
+
   const prompts = {
     sk: {
       intro: 'Si profesionálny AI asistent pre tvorbu follow-up emailov.',
@@ -177,6 +237,7 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
       businessType: 'Typ podnikania',
       client: 'Klient',
       situation: 'Situácia',
+      templateContext: 'Kontext/Typ emailu',
       requirements: 'Požiadavky na email:',
       req1: 'Musí byť v slovenčine',
       req2: 'Profesionálny, ale priateľský tón',
@@ -195,6 +256,7 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
       businessType: 'Business type',
       client: 'Client',
       situation: 'Situation',
+      templateContext: 'Context/Email Type',
       requirements: 'Email requirements:',
       req1: 'Must be in English',
       req2: 'Professional but friendly tone',
@@ -213,6 +275,7 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
       businessType: 'Typ podnikání',
       client: 'Klient',
       situation: 'Situace',
+      templateContext: 'Kontext/Typ emailu',
       requirements: 'Požadavky na email:',
       req1: 'Musí být v češtině',
       req2: 'Profesionální, ale přátelský tón',
@@ -231,6 +294,7 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
       businessType: 'Geschäftstyp',
       client: 'Kunde',
       situation: 'Situation',
+      templateContext: 'Kontext/E-Mail-Typ',
       requirements: 'E-Mail-Anforderungen:',
       req1: 'Muss auf Deutsch sein',
       req2: 'Professioneller, aber freundlicher Ton',
@@ -249,6 +313,7 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
       businessType: 'Typ działalności',
       client: 'Klient',
       situation: 'Sytuacja',
+      templateContext: 'Kontekst/Typ emaila',
       requirements: 'Wymagania dotyczące emaila:',
       req1: 'Musi być po polsku',
       req2: 'Profesjonalny, ale przyjazny ton',
@@ -267,6 +332,7 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
       businessType: 'Üzleti típus',
       client: 'Ügyfél',
       situation: 'Helyzet',
+      templateContext: 'Kontextus/Email típus',
       requirements: 'Email követelmények:',
       req1: 'Magyarul kell lennie',
       req2: 'Professzionális, de barátságos hangnem',
@@ -285,6 +351,7 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
       businessType: 'Tipo de negocio',
       client: 'Cliente',
       situation: 'Situación',
+      templateContext: 'Contexto/Tipo de correo',
       requirements: 'Requisitos del correo:',
       req1: 'Debe estar en español',
       req2: 'Tono profesional pero amigable',
@@ -298,7 +365,8 @@ function createPrompt(name, clientName, clientInfo, language, businessType) {
     }
   };
 
-  const p = prompts[language] || prompts['en']; // Fallback to English
+  const p = prompts[language] || prompts['en'];
+  const templateInstruction = templateInstructions[templateType || 'generic'][language] || templateInstructions['generic']['en'];
 
   return `${p.intro}
 
@@ -308,6 +376,7 @@ ${p.task}
 **${p.businessType}**: ${businessType}
 **${p.client}**: ${clientName || p.client.toLowerCase() + ' not specified'}
 **${p.situation}**: ${clientInfo}
+**${p.templateContext}**: ${templateInstruction}
 
 **${p.requirements}**
 1. ${p.req1}
@@ -441,7 +510,7 @@ function createEmailTemplate(name, followupEmail, language, clientName) {
     }
   };
 
-  const t = texts[language] || texts['en']; // Fallback to English
+  const t = texts[language] || texts['en'];
   
   return `
 <!DOCTYPE html>
