@@ -1199,6 +1199,19 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="template_type">Typ follow-upu <span class="required">*</span></label>
+                    <select id="template_type" name="template_type" required>
+                        <option value="">-- Vyberte typ --</option>
+                        <option value="generic">💬 Všeobecný follow-up</option>
+                        <option value="meeting">🤝 Po stretnutí/call</option>
+                        <option value="quote">💰 Po cenovej ponuke</option>
+                        <option value="cold">📧 Prvý kontakt (cold)</option>
+                        <option value="reminder">⏰ Jemná pripomienka</option>
+                        <option value="thankyou">🙏 Poďakovanie</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="client_name">Meno klienta</label>
                     <input type="text" id="client_name" name="client_name" placeholder="Pre koho je follow-up? (voliteľné)">
                 </div>
