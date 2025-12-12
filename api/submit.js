@@ -108,7 +108,7 @@ module.exports = async function handler(req, res) {
     const emailSubject = getEmailSubject(language, template_type, client_name);
 
     const { data: emailData, error: emailError } = await resend.emails.send({
-      from: 'FollowUpMate <onboarding@resend.dev>',
+      from: 'FollowUpMate <hello@followupmate.io>',
       to: email,
       subject: emailSubject,
       html: createEmailTemplate(name, followupEmail, language, client_name, template_type)
