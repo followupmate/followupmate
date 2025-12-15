@@ -542,29 +542,6 @@
             box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
         }
 
-        .free-trial {
-            margin-top: 4rem;
-            background: linear-gradient(135deg, var(--bg-light), white);
-            padding: 3rem;
-            border-radius: 20px;
-            text-align: center;
-            border: 2px solid var(--border);
-        }
-
-        .free-trial h3 {
-            font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .free-trial p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
         /* FAQ Section */
         .faq-section {
             background: var(--bg-light);
@@ -682,7 +659,6 @@
             font-weight: 700;
         }
 
-
         /* Simplified Form Styles */
         .simplified-form {
             max-width: 700px;
@@ -763,11 +739,6 @@
             flex-shrink: 0;
         }
 
-        .form-group label .required {
-            color: var(--danger);
-            margin-left: 0.25rem;
-        }
-
         .form-group input,
         .form-group select,
         .form-group textarea {
@@ -807,6 +778,9 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
             font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .form-submit:hover:not(:disabled) {
@@ -821,49 +795,14 @@
 
         .form-message {
             margin-top: 1.5rem;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 600;
-            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
             display: none;
         }
 
-        .form-message.success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 2px solid #10b981;
-        }
-
-        .form-message.error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 2px solid #ef4444;
-        }
-
         .form-message.show {
+            opacity: 1;
             display: block;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .form-info {
-            background: rgba(124, 58, 237, 0.05);
-            border-left: 4px solid var(--primary);
-            padding: 1rem 1.25rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-            color: var(--gray-dark);
         }
 
         /* Footer */
@@ -893,106 +832,36 @@
 
         /* Mobile Responsive */
         @media (max-width: 968px) {
-            h1 {
-                font-size: 2.5rem;
-            }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .section { padding: 3rem 1.5rem; }
+            .hero-buttons { flex-direction: column; align-items: stretch; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+            .pricing-grid, .solution-grid, .ideal-grid { grid-template-columns: 1fr; }
+            .form-container { padding: 2rem 1.5rem; }
+        }
 
-            h2 {
-                font-size: 2rem;
-            }
-
-            .section {
-                padding: 3rem 1.5rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .btn-primary,
-            .btn-secondary {
-                width: 100%;
-                text-align: center;
-            }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .solution-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .ideal-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-container {
-                padding: 2rem 1.5rem;
-            }
+        @media (max-width: 768px) {
+            .form-row-split { grid-template-columns: 1fr; gap: 1rem; }
+            .form-group-half { margin-bottom: 1rem !important; }
+            .form-info-box { padding: 1.25rem 1.5rem; gap: 0.75rem; }
+            .info-icon { font-size: 1.25rem; }
+            .info-text { font-size: 0.95rem; }
         }
 
         @media (max-width: 640px) {
-            nav {
-                padding: 0.75rem 1rem;
-            }
-
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-            }
-
-            .logo-icon svg {
-                width: 20px;
-                height: 20px;
-            }
-
-            .logo-text {
-                font-size: 1.1rem;
-            }
-
-            .nav-cta {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.75rem;
-            }
-
-            .form-container {
-                padding: 1.5rem 1rem;
-            }
+            nav { padding: 0.75rem 1rem; }
+            .logo-icon { width: 36px; height: 36px; }
+            .logo-icon svg { width: 20px; height: 20px; }
+            .logo-text { font-size: 1.1rem; }
+            .nav-cta { padding: 0.5rem 1rem; font-size: 0.8rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            .form-container { padding: 1.5rem 1rem; }
         }
-    
-        /* Mobile Responsive - Simplified Form */
-        @media (max-width: 768px) {
-            .form-row-split {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .form-group-half {
-                margin-bottom: 1rem !important;
-            }
 
-            .form-info-box {
-                padding: 1.25rem 1.5rem;
-                gap: 0.75rem;
-            }
-            
-            .info-icon {
-                font-size: 1.25rem;
-            }
-            
-            .info-text {
-                font-size: 0.95rem;
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -1088,7 +957,6 @@
         <h2>Jednoduché ceny</h2>
         <p>Bez mesačných poplatkov. Platíte len za to, čo použijete.</p>
         <div class="pricing-grid">
-            <!-- Starter -->
             <div class="pricing-card">
                 <div class="pricing-icon" style="background: linear-gradient(135deg, #3b82f6, #60a5fa); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: 700; font-size: 1.2rem;">S</div>
                 <h3 class="pricing-title">Starter</h3>
@@ -1103,7 +971,6 @@
                 <a href="https://buy.stripe.com/test_cNi14m82i90z63G7Qi" class="pricing-button" target="_blank">Vyskúšať Starter →</a>
             </div>
 
-            <!-- Business (Popular) -->
             <div class="pricing-card popular">
                 <div class="popular-badge">⭐ NAJPOPULÁRNEJŠIE</div>
                 <div class="pricing-icon" style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: 700; font-size: 1.2rem;">B</div>
@@ -1120,7 +987,6 @@
                 <a href="https://buy.stripe.com/test_5kQeVcgyO0u3ajW8Um" class="pricing-button" target="_blank">Kúpiť Business →</a>
             </div>
 
-            <!-- Pro -->
             <div class="pricing-card">
                 <div class="pricing-icon" style="background: linear-gradient(135deg, #10b981, #059669); color: white; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-weight: 700; font-size: 1.2rem;">P</div>
                 <h3 class="pricing-title">Pro</h3>
@@ -1137,7 +1003,8 @@
                 <a href="https://buy.stripe.com/test_28EbJ082i90z4ZC0nQ" class="pricing-button" target="_blank">Kúpiť Pro →</a>
             </div>
         </div>
-       
+    </section>
+
     <!-- FAQ Section -->
     <section class="faq-section section animate-on-scroll">
         <h2>Časté otázky</h2>
@@ -1193,7 +1060,7 @@
         </div>
     </section>
 
-            <!-- Final CTA Section -->
+    <!-- Final CTA Section -->
     <section class="final-cta-section section animate-on-scroll">
         <h2>Prestaňte strácať zákazky</h2>
         <p class="final-cta-description">Každý deň bez follow-upu je stratená príležitosť. Začnite dnes.</p>
@@ -1211,8 +1078,7 @@
         </div>
     </section>
 
- 
-    <!-- Custom Form Section - SIMPLIFIED -->
+    <!-- Custom Form Section -->
     <section id="start" class="form-section section animate-on-scroll">
         <h2>Vyskúšajte prvý follow-up zadarmo</h2>
         
@@ -1220,13 +1086,11 @@
             <div class="form-info-box">
                 <span class="info-icon">💡</span>
                 <div class="info-text">
-                    <strong>Prvý follow-up zadarma!</strong> Vyplňte formulár a AI vytvorí váš prvý personalizovaný email okamžite.
+                    <strong>Prvý follow-up zadarmo!</strong> Vyplňte formulár a AI vytvorí váš prvý personalizovaný email okamžite.
                 </div>
             </div>
             
             <form id="followupForm" class="simplified-form">
-                
-                <!-- Email + Jazyk v jednom riadku -->
                 <div class="form-row-split">
                     <div class="form-group form-group-half">
                         <label for="email">
@@ -1236,9 +1100,7 @@
                             </svg>
                             Váš email
                         </label>
-                        <input type="email" id="email" name="email" required 
-                               placeholder="jan@firma.sk"
-                               autocomplete="email">
+                        <input type="email" id="email" name="email" required placeholder="jan@firma.sk" autocomplete="email">
                     </div>
                     
                     <div class="form-group form-group-half">
@@ -1262,7 +1124,6 @@
                     </div>
                 </div>
                 
-                <!-- Typ follow-upu -->
                 <div class="form-group">
                     <label for="template_type">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1280,7 +1141,6 @@
                     </select>
                 </div>
                 
-                <!-- Situácia -->
                 <div class="form-group">
                     <label for="client_info">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1292,20 +1152,16 @@
                         </svg>
                         Opíšte situáciu
                     </label>
-                    <textarea id="client_info" name="client_info" required 
-                              placeholder="Napr: Poslal som ponuku na redesign webu pred týždňom. Klient povedal že sa ozve do piatku, ale zatiaľ ticho. Chcem sa jemne pripomenúť."
-                              rows="4"></textarea>
+                    <textarea id="client_info" name="client_info" required placeholder="Napr: Poslal som ponuku na redesign webu pred týždňom. Klient povedal že sa ozve do piatku, ale zatiaľ ticho. Chcem sa jemne pripomenúť." rows="4"></textarea>
                     <div style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--gray-light); font-style: italic;">
                         💡 Tip: Čím viac detailov zadáte, tým lepší follow-up dostanete
                     </div>
                 </div>
                 
-                <!-- Hidden fields pre backend compatibility -->
                 <input type="hidden" id="name" name="name" value="User">
                 <input type="hidden" id="client_name" name="client_name" value="">
                 <input type="hidden" id="package" name="package" value="">
                 
-                <!-- Submit button -->
                 <button type="submit" class="form-submit" id="submitBtn">
                     <span class="btn-text">Vytvoriť follow-up</span>
                     <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition: transform 0.3s ease; margin-left: 0.5rem;">
@@ -1317,7 +1173,6 @@
                 <div id="formMessage" class="form-message"></div>
             </form>
             
-            <!-- Trust badges -->
             <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--gray);">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3">
@@ -1341,28 +1196,21 @@
         </div>
     </section>
 
-    <!-- Footer -->    </section>
-
     <!-- Footer -->
     <footer>
         <p>&copy; 2024 FollowUpMate. Všetky práva vyhradené.</p>
     </footer>
 
-    <!-- Scripts -->
     <script>
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(button => {
             button.addEventListener('click', () => {
                 const faqItem = button.parentElement;
                 const isActive = faqItem.classList.contains('active');
-                
-                // Close all FAQ items
                 document.querySelectorAll('.faq-item').forEach(item => {
                     item.classList.remove('active');
                     item.querySelector('.faq-question').classList.remove('active');
                 });
-                
-                // Open clicked item if it wasn't active
                 if (!isActive) {
                     faqItem.classList.add('active');
                     button.classList.add('active');
@@ -1371,38 +1219,26 @@
         });
 
         // Scroll Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animated');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-        // Smooth scroll for anchor links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
 
-        // Form Submission
+        // Form Submission with PAYWALL
         const form = document.getElementById('followupForm');
         const submitBtn = document.getElementById('submitBtn');
         const formMessage = document.getElementById('formMessage');
@@ -1410,43 +1246,141 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Disable submit button
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Spracúvam...';
+            const originalHTML = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="btn-text">Vytváram...</span><div style="display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;margin-left:10px;"></div>';
             
-            // Hide previous messages
-            formMessage.classList.remove('show', 'success', 'error');
+            if (formMessage) {
+                formMessage.style.display = 'none';
+                formMessage.className = 'form-message';
+            }
             
-            // Get form data
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
             try {
-                // TODO: Replace with your actual API endpoint
                 const response = await fetch('https://followupmate.vercel.app/api/submit', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
                 
-                if (response.ok) {
-                    // Success
-                    formMessage.textContent = '✓ Úspešne odoslané! Váš follow-up email bol vygenerovaný a odoslaný na váš email.';
-                    formMessage.classList.add('success', 'show');
-                    form.reset();
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    formMessage.style.display = 'block';
+                    
+                    if (result.isFreeTrialUsed) {
+                        formMessage.innerHTML = `
+                            <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 2rem; border-radius: 12px; border: 2px solid #10b981;">
+                                <div style="font-size: 1.3rem; font-weight: 700; color: #065f46; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 2rem;">✅</span>
+                                    Váš follow-up bol vytvorený!
+                                </div>
+                                <p style="color: #065f46; margin: 0.5rem 0; font-size: 1.05rem;">
+                                    Email bol odoslaný na <strong>${data.email}</strong>
+                                </p>
+                                <div style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border: 2px solid #7c3aed;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎁</div>
+                                    <p style="color: #5b21b6; margin: 0; font-weight: 700; font-size: 1.1rem;">
+                                        Toto bol váš BEZPLATNÝ follow-up!
+                                    </p>
+                                    <p style="color: #5b21b6; margin: 0.75rem 0; font-size: 0.95rem;">
+                                        Chcete viac? Získajte 10 follow-upov za 29€ alebo 30 za 79€
+                                    </p>
+                                    <a href="#pricing" onclick="document.querySelector('#pricing').scrollIntoView({behavior:'smooth'});"
+                                       style="display: inline-block; background: #7c3aed; color: white; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; margin-top: 0.75rem; font-size: 1.05rem; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);">
+                                        Kúpiť kredity →
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        const creditsLeft = result.remainingCredits;
+                        formMessage.innerHTML = `
+                            <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 2rem; border-radius: 12px; border: 2px solid #10b981;">
+                                <div style="font-size: 1.3rem; font-weight: 700; color: #065f46; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 2rem;">✅</span>
+                                    Follow-up vytvorený!
+                                </div>
+                                <p style="color: #065f46; margin: 0.5rem 0; font-size: 1.05rem;">
+                                    Email odoslaný na <strong>${data.email}</strong>
+                                </p>
+                                <p style="color: #065f46; margin: 0.75rem 0 0 0; font-size: 1rem;">
+                                    Zostávajúce kredity: <strong style="font-size: 1.2rem; color: #7c3aed;">${creditsLeft}</strong>
+                                </p>
+                                ${creditsLeft === 0 ? `
+                                    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border: 2px solid #f59e0b;">
+                                        <p style="color: #92400e; margin: 0; font-weight: 700; font-size: 1.05rem;">
+                                            ⚠️ Minuli ste všetky kredity
+                                        </p>
+                                        <p style="color: #92400e; margin: 0.5rem 0; font-size: 0.95rem;">
+                                            Chcete vytvoriť viac follow-upov?
+                                        </p>
+                                        <a href="#pricing" onclick="document.querySelector('#pricing').scrollIntoView({behavior:'smooth'});"
+                                           style="display: inline-block; background: #7c3aed; color: white; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; margin-top: 0.75rem; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);">
+                                            Kúpiť viac →
+                                        </a>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    formMessage.className = 'form-message show success';
+                    setTimeout(() => { form.reset(); }, 1000);
+                    
+                } else if (response.status === 402) {
+                    formMessage.style.display = 'block';
+                    formMessage.innerHTML = `
+                        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 2rem; border-radius: 12px; border: 2px solid #f59e0b;">
+                            <div style="font-size: 1.3rem; font-weight: 700; color: #92400e; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 2rem;">💳</span>
+                                Nemáte dostatok kreditov
+                            </div>
+                            <p style="color: #92400e; margin: 0.5rem 0; font-size: 1.05rem;">
+                                ${result.message || 'Už ste použili bezplatný follow-up.'}
+                            </p>
+                            <p style="color: #92400e; margin: 1rem 0 1.5rem 0; font-size: 0.95rem;">
+                                Vyberte si balík a pokračujte:
+                            </p>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                                <a href="#pricing" onclick="document.querySelector('#pricing').scrollIntoView({behavior:'smooth'});"
+                                   style="display: inline-block; background: #7c3aed; color: white; padding: 1rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3); text-align: center;">
+                                    <div style="font-size: 1.1rem;">Business</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.9;">10 follow-upov (29€)</div>
+                                </a>
+                                <a href="#pricing" onclick="document.querySelector('#pricing').scrollIntoView({behavior:'smooth'});"
+                                   style="display: inline-block; background: #1e293b; color: white; padding: 1rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); text-align: center;">
+                                    <div style="font-size: 1.1rem;">Pro</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.9;">30 follow-upov (79€)</div>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    formMessage.className = 'form-message show error';
+                    
                 } else {
-                    throw new Error('Nepodarilo sa odoslať formulár');
+                    throw new Error(result.error || 'Nepodarilo sa vytvoriť follow-up');
                 }
+                
             } catch (error) {
-                // Error
-                formMessage.textContent = '✗ Niečo sa pokazilo. Skúste to prosím znova alebo nás kontaktujte.';
-                formMessage.classList.add('error', 'show');
+                formMessage.style.display = 'block';
+                formMessage.innerHTML = `
+                    <div style="background: #fee2e2; padding: 2rem; border-radius: 12px; border: 2px solid #ef4444;">
+                        <div style="font-size: 1.2rem; font-weight: 700; color: #991b1b; margin-bottom: 0.5rem;">
+                            ✗ Chyba
+                        </div>
+                        <p style="color: #991b1b; margin: 0; font-size: 1rem;">
+                            ${error.message || 'Niečo sa pokazilo. Skúste to prosím znova.'}
+                        </p>
+                    </div>
+                `;
+                formMessage.className = 'form-message show error';
+                console.error('Form error:', error);
             } finally {
-                // Re-enable submit button
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Vytvoriť follow-up →';
+                submitBtn.innerHTML = originalHTML;
             }
         });
     </script>
