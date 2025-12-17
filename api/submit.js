@@ -460,6 +460,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
       lowCreditsWarning: 'Zostáva vám málo kreditov',
       noCreditsTitle: 'Chcete vytvoriť viac follow-upov?',
       buyCredits: 'Kúpiť kredity →',
+      buyMoreCredits: 'Dokúpiť kredity',
       thanks: 'Ďakujeme za používanie FollowUpMate!',
       footer: 'Tento email ste dostali pretože ste vytvorili follow-up na FollowUpMate.io'
     },
@@ -478,6 +479,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
       lowCreditsWarning: 'Running low on credits',
       noCreditsTitle: 'Want to create more follow-ups?',
       buyCredits: 'Buy credits →',
+      buyMoreCredits: 'Buy more credits',
       thanks: 'Thank you for using FollowUpMate!',
       footer: 'You received this email because you created a follow-up on FollowUpMate.io'
     },
@@ -496,6 +498,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
       lowCreditsWarning: 'Zbývá vám málo kreditů',
       noCreditsTitle: 'Chcete vytvořit více follow-upů?',
       buyCredits: 'Koupit kredity →',
+      buyMoreCredits: 'Dokoupit kredity',
       thanks: 'Děkujeme za používání FollowUpMate!',
       footer: 'Tento email jste dostali, protože jste vytvořili follow-up na FollowUpMate.io'
     },
@@ -514,6 +517,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
       lowCreditsWarning: 'Nur noch wenige Credits übrig',
       noCreditsTitle: 'Möchten Sie weitere Follow-ups erstellen?',
       buyCredits: 'Credits kaufen →',
+      buyMoreCredits: 'Weitere Credits kaufen',
       thanks: 'Vielen Dank für die Nutzung von FollowUpMate!',
       footer: 'Sie haben diese E-Mail erhalten, weil Sie ein Follow-up auf FollowUpMate.io erstellt haben'
     },
@@ -532,6 +536,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
       lowCreditsWarning: 'Mało pozostałych kredytów',
       noCreditsTitle: 'Chcesz utworzyć więcej follow-upów?',
       buyCredits: 'Kup kredyty →',
+      buyMoreCredits: 'Dokup kredyty',
       thanks: 'Dziękujemy za korzystanie z FollowUpMate!',
       footer: 'Otrzymałeś ten e-mail, ponieważ utworzyłeś follow-up na FollowUpMate.io'
     },
@@ -550,6 +555,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
       lowCreditsWarning: 'Kevés kredit maradt',
       noCreditsTitle: 'Szeretnél több követő e-mailt létrehozni?',
       buyCredits: 'Kreditek vásárlása →',
+      buyMoreCredits: 'További kreditek vásárlása',
       thanks: 'Köszönjük, hogy használod a FollowUpMate-et!',
       footer: 'Ezt az e-mailt azért kaptad, mert létrehoztál egy követő e-mailt a FollowUpMate.io oldalon'
     },
@@ -568,6 +574,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
       lowCreditsWarning: 'Quedan pocos créditos',
       noCreditsTitle: '¿Quieres crear más seguimientos?',
       buyCredits: 'Comprar créditos →',
+      buyMoreCredits: 'Comprar más créditos',
       thanks: '¡Gracias por usar FollowUpMate!',
       footer: 'Recibiste este correo porque creaste un seguimiento en FollowUpMate.io'
     }
@@ -653,13 +660,13 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
                     <!-- How to use section -->
                     <tr>
                         <td style="padding: 0 40px 32px;">
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; border-left: 4px solid #f59e0b;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border-radius: 12px; border-left: 4px solid #9333ea;">
                                 <tr>
                                     <td style="padding: 20px 24px;">
-                                        <p style="margin: 0 0 12px; font-size: 15px; color: #92400e; font-weight: 600;">
+                                        <p style="margin: 0 0 12px; font-size: 15px; color: #6b21a8; font-weight: 600;">
                                             💡 ${t.howTo}
                                         </p>
-                                        <ol style="margin: 0; padding-left: 20px; color: #78350f; font-size: 14px; line-height: 1.8;">
+                                        <ol style="margin: 0; padding-left: 20px; color: #6b21a8; font-size: 14px; line-height: 1.8;">
                                             <li style="margin-bottom: 6px;">${t.step1}</li>
                                             <li style="margin-bottom: 6px;">${t.step2}</li>
                                             <li style="margin-bottom: 6px;">${t.step3}</li>
@@ -686,20 +693,25 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
                     <!-- Remaining Credits -->
                     <tr>
                         <td style="padding: 0 40px 32px;">
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #fef3c7; border-radius: 10px; border: 2px solid #fbbf24;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border-radius: 10px; border: 2px solid #9333ea;">
                                 <tr>
                                     <td style="padding: 20px; text-align: center;">
-                                        <p style="margin: 0 0 8px; font-size: 14px; color: #78350f; font-weight: 600;">
+                                        <p style="margin: 0 0 8px; font-size: 14px; color: #6b21a8; font-weight: 600;">
                                             ${t.creditsLabel}
                                         </p>
-                                        <p style="margin: 0; font-size: 32px; color: #92400e; font-weight: 700;">
+                                        <p style="margin: 0; font-size: 32px; color: #1f2937; font-weight: 700;">
                                             ${remainingCredits}
                                         </p>
                                         ${lowCredits ? `
-                                        <p style="margin: 12px 0 0; font-size: 13px; color: #92400e;">
+                                        <p style="margin: 12px 0 8px; font-size: 13px; color: #7e22ce;">
                                             ⚠️ ${t.lowCreditsWarning}
                                         </p>
                                         ` : ''}
+                                        <p style="margin: ${lowCredits ? '8px' : '12px'} 0 0; font-size: 13px;">
+                                            <a href="https://followupmate.io/#pricing" style="color: #9333ea; text-decoration: none; font-weight: 600;">
+                                                ${t.buyMoreCredits || t.buyCredits}
+                                            </a>
+                                        </p>
                                     </td>
                                 </tr>
                             </table>
