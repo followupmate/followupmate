@@ -697,6 +697,16 @@
             padding: 1rem;
             box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
             z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-submit-bar.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
         @media (min-width: 640px) {
@@ -831,13 +841,6 @@
 
         .hidden {
             display: none;
-        }
-
-        /* ===== MOBILE PADDING ===== */
-        @media (max-width: 639px) {
-            .form-section {
-                padding-bottom: 10rem;
-            }
         }
     </style>
 </head>
@@ -1307,6 +1310,29 @@
                 }
             });
         });
+
+        // Show/hide mobile sticky button based on form visibility
+        const mobileSubmitBar = document.querySelector('.mobile-submit-bar');
+        const formSection = document.getElementById('start');
+        
+        if (mobileSubmitBar && formSection) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Form is visible - show sticky button
+                        mobileSubmitBar.classList.add('visible');
+                    } else {
+                        // Form is not visible - hide sticky button
+                        mobileSubmitBar.classList.remove('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px'
+            });
+            
+            observer.observe(formSection);
+        }
     </script>
 
 </body>
