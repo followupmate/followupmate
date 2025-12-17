@@ -1215,7 +1215,27 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    showMessage('success', result.message || 'Follow-up bol úspešne vytvorený a odoslaný na váš email!');
+                    // Build success message with remaining credits
+                    let successMsg = result.message || 'Follow-up bol úspešne vytvorený a odoslaný na váš email!';
+                    
+                    // Add remaining credits info if available
+                    if (typeof result.remainingCredits !== 'undefined') {
+                        successMsg += `<br><br><strong>Zostávajúce kredity: ${result.remainingCredits}</strong>`;
+                        
+                        // Warning if credits are running low
+                        if (result.remainingCredits === 0) {
+                            successMsg += '<br><span style="color: var(--amber-900);">⚠️ Minuli ste všetky kredity.</span>';
+                        } else if (result.remainingCredits <= 2) {
+                            successMsg += '<br><span style="color: var(--amber-900);">⚠️ Zostávajú vám len ' + result.remainingCredits + ' kredity.</span>';
+                        }
+                    }
+                    
+                    // Show if this was free trial
+                    if (result.isFreeTrialUsed) {
+                        successMsg += '<br><br><em style="color: var(--gray-600);">Toto bol váš bezplatný follow-up.</em>';
+                    }
+                    
+                    showMessage('success', successMsg);
                     form.reset();
                 } else if (response.status === 402) {
                     showPaywall(result.message);
