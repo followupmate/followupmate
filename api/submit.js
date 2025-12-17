@@ -448,14 +448,14 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
     sk: {
       title: 'Váš follow-up je pripravený!',
       greeting: 'Ahoj',
-      intro: 'Toto je váš personalizovaný follow-up email:',
+      intro: 'Tu je váš personalizovaný follow-up email:',
       type: 'Typ',
       howTo: 'Ako na to:',
       step1: 'Skopírujte text vyššie',
       step2: 'Prečítajte si ho a prípadne upravte',
       step3: 'Pridajte svoj podpis',
       step4: 'Odošlite klientovi',
-      tip: 'Najlepšie výsledky dosiahnete ak email odošlete do 24 hodín.',
+      tip: 'Najlepšie výsledky dosiahnete, ak email odošlete do 24 hodín.',
       creditsLabel: 'Zostávajúce kredity',
       lowCreditsWarning: 'Zostáva vám málo kreditov',
       noCreditsTitle: 'Chcete vytvoriť viac follow-upov?',
@@ -619,7 +619,7 @@ function createEmailTemplate(name, followupEmail, language, clientName, template
                     <tr>
                         <td style="padding: 32px 40px 24px;">
                             <p style="margin: 0; font-size: 16px; color: #1f2937; line-height: 1.6;">
-                                ${t.greeting} <strong>${name}</strong>,
+                                ${t.greeting}${name && name !== 'User' && name !== '' ? ` <strong>${name}</strong>` : ''},
                             </p>
                         </td>
                     </tr>
