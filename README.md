@@ -23,6 +23,7 @@ FollowUpMate is a SaaS application that helps freelancers, salespeople, and smal
 - 📧 **Email Delivery** - Automated via Resend API
 - 💰 **Stripe Integration** - Secure payments with webhook fulfillment
 - 🎯 **Template System** - 6 follow-up types (meeting, quote, cold, reminder, etc.)
+- ✨ **Smart UI** - Mobile-first design with intelligent sticky button
 
 ---
 
@@ -30,6 +31,8 @@ FollowUpMate is a SaaS application that helps freelancers, salespeople, and smal
 
 ### Frontend
 - **HTML/CSS/JS** - Vanilla JavaScript, no framework
+- **Styling:** Inline CSS (production-ready, no CDN warnings)
+- **Design:** Minimalist, mobile-first, brand-consistent purple theme
 - **Hosting:** Vercel
 - **Domain:** followupmate.io (via WebSupport)
 
@@ -45,6 +48,34 @@ FollowUpMate is a SaaS application that helps freelancers, salespeople, and smal
 - **Deployment:** Vercel (auto-deploy from GitHub)
 - **DNS:** WebSupport
 - **Email Domain:** followupmate.io (configured with Resend)
+
+---
+
+## 🎨 Design System (December 2024 Update)
+
+### Brand Colors
+```css
+--brand-50: #faf5ff
+--brand-100: #f3e8ff
+--brand-200: #e9d5ff
+--brand-500: #a855f7
+--brand-600: #9333ea  /* Primary */
+--brand-700: #7e22ce
+--brand-800: #6b21a8
+```
+
+### UI Principles
+- ✅ **No emojis in UI** (clean, professional)
+- ✅ **No input field icons** (minimalist)
+- ✅ **Subtle borders** (gray-200)
+- ✅ **Inter font** (system fallback)
+- ✅ **Large vertical spacing** (breathing room)
+- ✅ **Smart mobile sticky button** (shows only at form section)
+
+### Mobile UX Enhancement
+- **Sticky Bottom Bar:** CTA button appears only when form section is visible (IntersectionObserver)
+- **Smooth Animations:** Fade-in/fade-out transitions
+- **No Content Blocking:** Button intelligently hides when not needed
 
 ---
 
@@ -142,9 +173,9 @@ STRIPE_WEBHOOK_SECRET=whsec_live_...
 
 ```
 followupmate/
-├── index.html              # Landing page + form
+├── index.html              # Landing page + form (minimalist redesign Dec 2024)
 ├── api/
-│   ├── submit.js          # Main endpoint (credit check, AI generation, email)
+│   ├── submit.js          # Main endpoint (multi-language email template)
 │   └── stripe-webhook.js  # Webhook handler (credit fulfillment)
 ├── package.json           # Dependencies
 └── README.md
@@ -158,14 +189,15 @@ followupmate/
 1. User fills form (email, language, situation)
 2. System checks if email used free trial
 3. If not → Generate email with Claude API
-4. Send via Resend
+4. Send via Resend with **new minimalist email template**
 5. Mark `free_trial_used = true`
 
 ### Paid Usage
 1. User fills form
 2. System checks credits
 3. If credits > 0 → Generate & send email, deduct 1 credit
-4. If credits = 0 → Show paywall
+4. **Show remaining credits in success message**
+5. If credits = 0 → Show paywall
 
 ### Payment Flow
 1. User clicks pricing button → Stripe Checkout
@@ -184,6 +216,7 @@ followupmate/
 **Request Body:**
 ```json
 {
+  "name": "",
   "email": "user@example.com",
   "language": "sk",
   "template_type": "meeting",
@@ -197,7 +230,8 @@ followupmate/
   "success": true,
   "message": "Follow-up created and sent",
   "isFreeTrialUsed": false,
-  "remainingCredits": 5
+  "remainingCredits": 5,
+  "needsMoreCredits": false
 }
 ```
 
@@ -206,7 +240,9 @@ followupmate/
 {
   "success": false,
   "error": "No credits available",
-  "message": "Purchase credits to continue"
+  "message": "Purchase credits to continue",
+  "needsPayment": true,
+  "remainingCredits": 0
 }
 ```
 Status: `402 Payment Required`
@@ -262,8 +298,34 @@ package_type: starter (or business, pro)
 - **Domain:** followupmate.io
 - **DNS Records:** SPF, DKIM, DMARC configured via WebSupport
 
-### Email Template
-AI-generated follow-up emails are sent using Resend's React Email component with custom branding.
+### Email Template (Redesigned December 2024)
+
+**New Features:**
+- ✅ **Minimalist Design** - Purple gradient header, clean white card
+- ✅ **Brand Consistency** - Purple color scheme matching landing page
+- ✅ **Multi-Language** - Full translations for all 7 languages
+- ✅ **Credit Display** - Shows remaining credits in purple box
+- ✅ **Smart CTA** - "Buy credits" link when running low
+- ✅ **Mobile Responsive** - Table-based layout for email clients
+
+**Email Sections:**
+1. Gradient header with checkmark
+2. Personalized greeting (no "User" fallback)
+3. Template type badge
+4. Generated email content in gray box
+5. "How to use" instructions (purple gradient box)
+6. Tip box (blue)
+7. Credits remaining box (purple, only if has credits)
+8. Buy credits CTA (if no credits)
+
+**Languages Supported:**
+- 🇸🇰 Slovak (corrected: "Tu je" not "Zde", "Najlepšie" not "Najlepších")
+- 🇬🇧 English
+- 🇨🇿 Czech
+- 🇩🇪 German
+- 🇵🇱 Polish
+- 🇭🇺 Hungarian
+- 🇪🇸 Spanish
 
 ---
 
@@ -278,6 +340,19 @@ AI-generated follow-up emails are sent using Resend's React Email component with
 1. Vercel Dashboard → followupmate project
 2. Deployments tab
 3. Click ⋯ → Redeploy
+
+### Recent Updates (December 2024)
+```bash
+# Deploy redesigned index.html
+git add index.html
+git commit -m "Minimalist redesign with smart mobile UX"
+git push origin main
+
+# Deploy new email template
+git add api/submit.js
+git commit -m "New email template: minimalist, multi-language, credits display"
+git push origin main
+```
 
 ---
 
@@ -311,6 +386,7 @@ AI-generated follow-up emails are sent using Resend's React Email component with
 - **Failed Webhook Deliveries:** Should be 0
 - **API Error Rate:** Monitor submit.js failures
 - **Email Delivery Rate:** Target: >98%
+- **Mobile UX:** Sticky button engagement (form completion rate)
 
 ---
 
@@ -334,6 +410,18 @@ AI-generated follow-up emails are sent using Resend's React Email component with
 2. Supabase connection
 3. Claude API quota/limits
 
+### Issue: Mobile sticky button not appearing
+**Check:**
+1. IntersectionObserver browser support
+2. Form section has `id="start"`
+3. Mobile viewport width < 640px
+
+### Issue: Email shows "User" in greeting
+**Check:**
+1. Hidden field in form has `value=""` (empty)
+2. Backend logic filters out "User" string
+3. Latest submit.js deployed
+
 ---
 
 ## 🔒 Security
@@ -343,6 +431,32 @@ AI-generated follow-up emails are sent using Resend's React Email component with
 - ✅ Environment variables stored in Vercel (encrypted)
 - ✅ HTTPS only (enforced by Vercel)
 - ✅ No API keys in frontend code
+- ✅ No sensitive user data in email greeting
+
+---
+
+## 📝 Recent Updates (December 2024)
+
+### Frontend Redesign
+- ✅ Minimalist UI with inline CSS (no Tailwind CDN warnings)
+- ✅ Smart mobile sticky button (IntersectionObserver)
+- ✅ Removed emojis from UI elements
+- ✅ Removed input field icons
+- ✅ Purple brand color consistency
+- ✅ Improved mobile spacing and touch targets
+
+### Email Template Overhaul
+- ✅ Complete redesign: gradient header, purple boxes
+- ✅ Full multi-language support (7 languages)
+- ✅ Credits display with purchase link
+- ✅ Low credits warning
+- ✅ Removed "User" fallback in greeting
+- ✅ Fixed Slovak language errors ("Zde" → "Tu", "Najlepších" → "Najlepšie")
+
+### Backend Improvements
+- ✅ Enhanced success response with remainingCredits
+- ✅ Conditional email sections (credits/no credits)
+- ✅ Improved name handling (empty string instead of "User")
 
 ---
 
@@ -354,6 +468,7 @@ AI-generated follow-up emails are sent using Resend's React Email component with
 - [ ] A/B testing on email templates
 - [ ] Integration with CRM systems
 - [ ] Bulk follow-up creation
+- [ ] Email template customization
 
 ---
 
@@ -373,4 +488,8 @@ AI-generated follow-up emails are sent using Resend's React Email component with
 
 ## 🎯 Project Status: PRODUCTION READY ✅
 
-Last Updated: December 2024
+**Last Major Update:** December 17, 2024
+- Minimalist frontend redesign
+- Multi-language email template
+- Enhanced mobile UX with smart sticky button
+- Slovak language corrections
