@@ -83,10 +83,52 @@
         }
 
         .logo {
-            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--gray-900);
             text-decoration: none;
+        }
+
+        @media (min-width: 640px) {
+            .logo {
+                gap: 0.75rem;
+                font-size: 1.25rem;
+            }
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand-700) 100%);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 640px) {
+            .logo-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 0.625rem;
+            }
+        }
+
+        .logo-icon svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: white;
+        }
+
+        @media (min-width: 640px) {
+            .logo-icon svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
         }
 
         .nav-cta {
@@ -865,7 +907,14 @@
     <!-- Header -->
     <header>
         <div class="header-container">
-            <a href="#" class="logo">FollowUpMate</a>
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <span>FollowUpMate</span>
+            </a>
             <a href="#start" class="nav-cta">Začať zadarmo</a>
         </div>
     </header>
@@ -888,33 +937,33 @@
     </section>
 
     <!-- How It Works (Integrated with Hero) -->
-<section class="how-it-works">
-    <div class="section-container">
-        <div class="section-header">
-            <h2 class="section-title"></h2>
-        </div>
-        
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3 class="step-title">Vyplňte formulár</h3>
-                <p class="step-description">Popíšte situáciu a kontext vášho follow-upu</p>
+    <section class="how-it-works">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title"></h2>
             </div>
             
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3 class="step-title">AI vytvorí email</h3>
-                <p class="step-description">Personalizovaný follow-up presne pre vašu situáciu</p>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3 class="step-title">Dostanete hotový email</h3>
-                <p class="step-description">Skontrolujte, upravte a odošlite</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Vyplňte formulár</h3>
+                    <p class="step-description">Popíšte situáciu a kontext vášho follow-upu</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">AI vytvorí email</h3>
+                    <p class="step-description">Personalizovaný follow-up presne pre vašu situáciu</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Dostanete hotový email</h3>
+                    <p class="step-description">Skontrolujte, upravte a odošlite</p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Pricing Section -->
     <section id="pricing" class="pricing">
