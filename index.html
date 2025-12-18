@@ -67,10 +67,35 @@
         header {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.95);
+
+            /* UPDATED: smooth gradient matching hero (no hard edge) */
+            background: linear-gradient(
+                180deg,
+                var(--brand-50) 0%,
+                rgba(250, 245, 255, 0.85) 55%,
+                rgba(250, 245, 255, 0.35) 82%,
+                rgba(250, 245, 255, 0) 100%
+            );
+
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--gray-100);
+            -webkit-backdrop-filter: blur(12px);
+
+            /* UPDATED: remove hard divider */
+            border-bottom: none;
+
             z-index: 1000;
+        }
+
+        @media (min-width: 640px) {
+            header {
+                background: linear-gradient(
+                    180deg,
+                    var(--brand-50) 0%,
+                    rgba(250, 245, 255, 0.7) 65%,
+                    rgba(250, 245, 255, 0.25) 85%,
+                    rgba(250, 245, 255, 0) 100%
+                );
+            }
         }
 
         .header-container {
@@ -1261,14 +1286,11 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    // Build success message with remaining credits
                     let successMsg = result.message || 'Follow-up bol úspešne vytvorený a odoslaný na váš email!';
                     
-                    // Add remaining credits info if available
                     if (typeof result.remainingCredits !== 'undefined') {
                         successMsg += `<br><br><strong>Zostávajúce kredity: ${result.remainingCredits}</strong>`;
                         
-                        // Warning if credits are running low
                         if (result.remainingCredits === 0) {
                             successMsg += '<br><span style="color: var(--amber-900);">⚠️ Minuli ste všetky kredity.</span>';
                         } else if (result.remainingCredits <= 2) {
@@ -1276,7 +1298,6 @@
                         }
                     }
                     
-                    // Show if this was free trial
                     if (result.isFreeTrialUsed) {
                         successMsg += '<br><br><em style="color: var(--gray-600);">Toto bol váš bezplatný follow-up.</em>';
                     }
@@ -1340,7 +1361,6 @@
             formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1354,7 +1374,6 @@
             });
         });
 
-        // Show/hide mobile sticky button based on form visibility
         const mobileSubmitBar = document.querySelector('.mobile-submit-bar');
         const formSection = document.getElementById('start');
         
@@ -1362,10 +1381,8 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Form is visible - show sticky button
                         mobileSubmitBar.classList.add('visible');
                     } else {
-                        // Form is not visible - hide sticky button
                         mobileSubmitBar.classList.remove('visible');
                     }
                 });
