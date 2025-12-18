@@ -664,4 +664,740 @@
 
         .form-select {
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.1rem;
+            padding-right: 2.5rem;
+        }
+
+        /* textarea: 150px -> 180px */
+        .form-textarea {
+            resize: none;
+            min-height: 180px;
+            line-height: 1.7;
+            padding: 1rem;
+        }
+
+        .form-helper {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        /* Two-column row like the sample */
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-row-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Button style like sample (teal, left aligned) */
+        .form-submit {
+            display: none; /* keep your original behavior (mobile uses sticky bar) */
+            width: auto;
+            align-self: flex-start;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: white;
+            background: var(--teal-500);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.02s;
+        }
+
+        .form-submit:hover:not(:disabled) {
+            background: var(--teal-600);
+        }
+
+        .form-submit:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        .form-submit:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.25);
+        }
+
+        .form-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (min-width: 640px) {
+            .form-submit {
+                display: inline-flex;
+            }
+        }
+
+        .form-privacy {
+            display: none;
+            text-align: left;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        @media (min-width: 640px) {
+            .form-privacy {
+                display: block;
+            }
+        }
+
+        #formMessage {
+            margin-top: 1.5rem;
+        }
+
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .form-footer-text {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        /* ===== STICKY BOTTOM BAR (Mobile) ===== */
+        .mobile-submit-bar {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            padding: 1rem;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-submit-bar.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        @media (min-width: 640px) {
+            .mobile-submit-bar {
+                display: none;
+            }
+        }
+
+        .mobile-submit-button {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--teal-500);
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .mobile-submit-button:active:not(:disabled) {
+            background: var(--teal-600);
+        }
+
+        .mobile-submit-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.25);
+        }
+
+        .mobile-submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .mobile-privacy {
+            margin-top: 0.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--gray-900);
+            color: var(--gray-400);
+            padding: 3rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 80rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.875rem;
+        }
+
+        /* ===== MESSAGES ===== */
+        .message {
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .message-success {
+            background: var(--green-50);
+            border: 1px solid var(--green-200);
+            color: var(--green-800);
+        }
+
+        .message-error {
+            background: var(--red-50);
+            border: 1px solid var(--red-200);
+            color: var(--red-800);
+        }
+
+        .paywall-message {
+            background: var(--amber-50);
+            border: 1px solid var(--amber-200);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .paywall-title {
+            font-weight: 500;
+            color: var(--amber-900);
+            margin-bottom: 1rem;
+        }
+
+        .paywall-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .paywall-button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: white;
+            background: var(--brand-600);
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .paywall-button:hover {
+            background: var(--brand-700);
+        }
+
+        /* ===== LOADING SPINNER ===== */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <span>FollowUpMate</span>
+            </a>
+            <a href="#start" class="nav-cta">Začať zadarmo</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-badge">AI-powered follow-ups</div>
+            
+            <h1>Profesionálne follow-upy za pár sekúnd</h1>
+            
+            <p class="hero-description">
+                AI vytvorí personalizovaný follow-up email presne pre vašu situáciu. Žiadne šablóny, žiadne strácanie času.
+            </p>
+            
+            <div class="hero-buttons">
+                <a href="#start" class="btn-primary">Vyskúšať zadarmo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Ako to funguje</h2>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Vyplňte formulár</h3>
+                    <p class="step-description">Popíšte situáciu a kontext vášho follow-upu</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">AI vytvorí email</h3>
+                    <p class="step-description">Personalizovaný follow-up presne pre vašu situáciu</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Dostanete hotový email</h3>
+                    <p class="step-description">Skontrolujte, upravte a odošlite</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Jednoduchý cenník</h2>
+                <p class="section-description">Bez mesačných poplatkov. Platíte len za to, čo použijete.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <!-- Starter -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Starter</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">6</span>
+                            <span class="price-currency">€</span>
+                        </div>
+                        <p class="pricing-credits">3 follow-upy</p>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>AI personalizácia</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>7 jazykov</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>6 typov šablón</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://buy.stripe.com/4gM14mbeBdw91TRewldMI03" target="_blank" rel="noopener noreferrer" class="pricing-button pricing-button-secondary">
+                        Kúpiť Starter
+                    </a>
+                </div>
+
+                <!-- Business (Popular) -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Najobľúbenejšie</div>
+                    
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Business</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">9</span>
+                            <span class="price-currency">€</span>
+                        </div>
+                        <p class="pricing-credits">6 follow-upov</p>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>AI personalizácia</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>7 jazykov</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>6 typov šablón</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Najlepšia hodnota</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://buy.stripe.com/dRm6oG2I5ajX2XV87XdMI04" target="_blank" rel="noopener noreferrer" class="pricing-button pricing-button-primary">
+                        Kúpiť Business
+                    </a>
+                </div>
+
+                <!-- Pro -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Pro</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">29</span>
+                            <span class="price-currency">€</span>
+                        </div>
+                        <p class="pricing-credits">24 follow-upov</p>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>AI personalizácia</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>7 jazykov</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>6 typov šablón</span>
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Najlepšia úspora</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://buy.stripe.com/28E00i6Yldw9gOLfApdMI05" target="_blank" rel="noopener noreferrer" class="pricing-button pricing-button-secondary">
+                        Kúpiť Pro
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section id="start" class="form-section">
+        <div class="form-wrapper">
+            
+            <!-- Big title above card like sample -->
+            <div class="form-header">
+                <h2 class="form-title">Vygenerujte follow-up</h2>
+                <p class="form-subtitle">
+                    Popíšte situáciu a do pár sekúnd dostanete profesionálny email do inboxu.
+                </p>
+            </div>
+
+            <div class="form-card">
+
+                <!-- Card header inside like sample -->
+                <div class="form-card-header">
+                    <h3 class="form-card-title">Vygenerujte follow-up</h3>
+                    <p class="form-card-subtitle">Popíšte situáciu a dostanete profesionálny email v priebehu sekúnd.</p>
+                </div>
+
+                <form id="followupForm">
+                    
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Váš email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            required
+                            autocomplete="email"
+                            placeholder="you@company.com"
+                            class="form-input"
+                        >
+                    </div>
+
+                    <!-- Two columns on desktop -->
+                    <div class="form-row-2">
+                        <!-- Language Field -->
+                        <div class="form-group">
+                            <label for="language" class="form-label">Jazyk emailu</label>
+                            <select id="language" name="language" required class="form-select">
+                                <option value="sk">Slovenčina</option>
+                                <option value="en">English</option>
+                                <option value="cs">Čeština</option>
+                                <option value="de">Deutsch</option>
+                                <option value="pl">Polski</option>
+                                <option value="hu">Magyar</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </div>
+
+                        <!-- Template Type Field -->
+                        <div class="form-group">
+                            <label for="template_type" class="form-label">Typ follow-upu</label>
+                            <select id="template_type" name="template_type" required class="form-select">
+                                <option value="generic">Všeobecný follow-up</option>
+                                <option value="meeting">Po stretnutí</option>
+                                <option value="quote">Po cenovej ponuke</option>
+                                <option value="cold">Cold email follow-up</option>
+                                <option value="reminder">Pripomienka</option>
+                                <option value="thankyou">Poďakovanie</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Client Info Field -->
+                    <div class="form-group">
+                        <label for="client_info" class="form-label">Opíšte situáciu</label>
+                        <textarea 
+                            id="client_info" 
+                            name="client_info"
+                            required
+                            placeholder="Napr.: Minulý týždeň som sa stretol s potenciálnym klientom ohľadom našich služieb. Zaujalo ho to, ale potreboval čas na rozhodnutie..."
+                            class="form-textarea"
+                        ></textarea>
+                        <p class="form-helper">
+                            Tip: Čím viac detailov, tým presnejší follow-up.
+                        </p>
+                    </div>
+
+                    <!-- Hidden fields -->
+                    <input type="hidden" name="name" value="User">
+                    <input type="hidden" name="client_name" value="">
+                    <input type="hidden" name="package" value="">
+
+                    <!-- Desktop Submit Button -->
+                    <button type="submit" id="submitBtn" class="form-submit">
+                        <span id="submitBtnText">Vytvoriť follow-up email</span>
+                        <svg id="submitBtnSpinner" class="loading-spinner hidden" style="margin-left: 0.5rem; width: 1.25rem; height: 1.25rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Privacy Notice -->
+                    <p class="form-privacy">
+                        Vaše údaje neukladáme bez vášho súhlasu.
+                    </p>
+
+                </form>
+
+                <!-- Form Messages -->
+                <div id="formMessage"></div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="form-footer">
+                <p class="form-footer-text">
+                    Prvý follow-up zadarmo. Žiadna registrácia.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sticky Bottom Bar (Mobile Only) -->
+    <div class="mobile-submit-bar">
+        <button type="submit" form="followupForm" id="submitBtnMobile" class="mobile-submit-button">
+            <span id="submitBtnTextMobile">Vytvoriť follow-up email</span>
+            <svg id="submitBtnSpinnerMobile" class="loading-spinner hidden" style="margin-left: 0.5rem; width: 1.25rem; height: 1.25rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </button>
+        <p class="mobile-privacy">
+            Vaše údaje neukladáme bez vášho súhlasu.
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p class="footer-text">&copy; 2024 FollowUpMate. Všetky práva vyhradené.</p>
+        </div>
+    </footer>
+
+    <!-- Form Handling Script -->
+    <script>
+        const form = document.getElementById('followupForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitBtnMobile = document.getElementById('submitBtnMobile');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const submitBtnTextMobile = document.getElementById('submitBtnTextMobile');
+        const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+        const submitBtnSpinnerMobile = document.getElementById('submitBtnSpinnerMobile');
+        const formMessage = document.getElementById('formMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            setLoadingState(true);
+            formMessage.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    let successMsg = result.message || 'Follow-up bol úspešne vytvorený a odoslaný na váš email!';
+                    
+                    if (typeof result.remainingCredits !== 'undefined') {
+                        successMsg += `<br><br><strong>Zostávajúce kredity: ${result.remainingCredits}</strong>`;
+                        
+                        if (result.remainingCredits === 0) {
+                            successMsg += '<br><span style="color: var(--amber-900);">⚠️ Minuli ste všetky kredity.</span>';
+                        } else if (result.remainingCredits <= 2) {
+                            successMsg += '<br><span style="color: var(--amber-900);">⚠️ Zostávajú vám len ' + result.remainingCredits + ' kredity.</span>';
+                        }
+                    }
+                    
+                    if (result.isFreeTrialUsed) {
+                        successMsg += '<br><br><em style="color: var(--gray-600);">Toto bol váš bezplatný follow-up.</em>';
+                    }
+                    
+                    showMessage('success', successMsg);
+                    form.reset();
+                } else if (response.status === 402) {
+                    showPaywall(result.message);
+                } else {
+                    showMessage('error', result.error || 'Nastala chyba. Skúste to prosím znova.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('error', 'Nastala chyba pri komunikácii so serverom. Skúste to prosím znova.');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+        function setLoadingState(loading) {
+            if (loading) {
+                submitBtn.disabled = true;
+                submitBtnMobile.disabled = true;
+                submitBtnText.classList.add('hidden');
+                submitBtnTextMobile.classList.add('hidden');
+                submitBtnSpinner.classList.remove('hidden');
+                submitBtnSpinnerMobile.classList.remove('hidden');
+            } else {
+                submitBtn.disabled = false;
+                submitBtnMobile.disabled = false;
+                submitBtnText.classList.remove('hidden');
+                submitBtnTextMobile.classList.remove('hidden');
+                submitBtnSpinner.classList.add('hidden');
+                submitBtnSpinnerMobile.classList.add('hidden');
+            }
+        }
+
+        function showMessage(type, message) {
+            const className = type === 'success' ? 'message-success' : 'message-error';
+            formMessage.innerHTML = `<div class="message ${className}">${message}</div>`;
+            formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function showPaywall(message) {
+            formMessage.innerHTML = `
+                <div class="paywall-message">
+                    <p class="paywall-title">${message}</p>
+                    <div class="paywall-buttons">
+                        <a href="https://buy.stripe.com/4gM14mbeBdw91TRewldMI03" class="paywall-button">
+                            Starter – €6 (3 kredity)
+                        </a>
+                        <a href="https://buy.stripe.com/dRm6oG2I5ajX2XV87XdMI04" class="paywall-button">
+                            Business – €9 (6 kreditov)
+                        </a>
+                        <a href="https://buy.stripe.com/28E00i6Yldw9gOLfApdMI05" class="paywall-button">
+                            Pro – €29 (24 kreditov)
+                        </a>
+                    </div>
+                </div>
+            `;
+            formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Sticky bottom bar logic (UNCHANGED)
+        const mobileSubmitBar = document.querySelector('.mobile-submit-bar');
+        const formSection = document.getElementById('start');
+        
+        if (mobileSubmitBar && formSection) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        mobileSubmitBar.classList.add('visible');
+                    } else {
+                        mobileSubmitBar.classList.remove('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px'
+            });
+            
+            observer.observe(formSection);
+        }
+    </script>
+
+</body>
+</html>
