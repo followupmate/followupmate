@@ -176,7 +176,7 @@
             }
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO SECTION (UPDATED: Reduced bottom padding) ===== */
         .hero {
             padding: 4rem 1rem 2rem;
             background: linear-gradient(180deg, var(--brand-50) 0%, rgba(250, 245, 255, 0.6) 60%, rgba(250, 245, 255, 0) 100%);
@@ -592,13 +592,19 @@
             }
         }
 
-        /* padding 2rem -> 2.5rem */
+        /* padding 2rem -> 2.5rem (a aj mobile) */
         .form-card {
             background: white;
             border: 1px solid var(--gray-200);
             border-radius: 1rem;
             padding: 2.5rem;
-            box-shadow: 0 10px 25px -12px rgba(17, 24, 39, 0.20);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        @media (min-width: 640px) {
+            .form-card {
+                padding: 2.5rem;
+            }
         }
 
         /* spacing 1.5rem -> 2rem */
@@ -608,7 +614,13 @@
             gap: 2rem;
         }
 
-        /* 2 selects vedľa seba (desktop) */
+        @media (min-width: 640px) {
+            form {
+                gap: 2rem;
+            }
+        }
+
+        /* 2 selects vedľa seba (desktop), na mobile pod sebou */
         .form-row {
             display: grid;
             grid-template-columns: 1fr;
@@ -630,8 +642,8 @@
             display: block;
             margin-bottom: 0.5rem;
             font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--gray-800);
+            font-weight: 500;
+            color: var(--gray-700);
         }
 
         .form-input,
@@ -645,24 +657,15 @@
             background: white;
             border: 1px solid var(--gray-200);
             border-radius: 0.75rem;
-            transition: border-color 0.2s, box-shadow 0.2s, transform 0.02s;
+            transition: all 0.2s;
         }
 
-        /* jemný hover */
-        .form-input:hover,
-        .form-select:hover,
-        .form-textarea:hover {
-            border-color: var(--gray-300);
-            box-shadow: 0 1px 0 rgba(17, 24, 39, 0.04);
-        }
-
-        /* fialový ring na focus */
         .form-input:focus,
         .form-select:focus,
         .form-textarea:focus {
             outline: none;
             border-color: var(--brand-500);
-            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.14);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
         }
 
         .form-input::placeholder,
@@ -693,42 +696,34 @@
             color: var(--gray-500);
         }
 
-        /* button výraznejší */
         .form-submit {
             display: none;
             width: 100%;
             align-items: center;
             justify-content: center;
-            padding: 1rem 1.5rem; /* vyššie */
+            padding: 0.875rem 1.5rem;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             color: white;
             background: var(--brand-600);
             border: none;
-            border-radius: 0.85rem;
+            border-radius: 0.75rem;
             cursor: pointer;
-            transition: transform 0.02s, background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 12px 18px -10px rgba(147, 51, 234, 0.45);
+            transition: all 0.2s;
         }
 
         .form-submit:hover:not(:disabled) {
             background: var(--brand-700);
-            box-shadow: 0 14px 22px -12px rgba(147, 51, 234, 0.55);
-        }
-
-        .form-submit:active:not(:disabled) {
-            transform: translateY(1px);
         }
 
         .form-submit:focus {
             outline: none;
-            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.22), 0 14px 22px -12px rgba(147, 51, 234, 0.55);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.5);
         }
 
         .form-submit:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            box-shadow: none;
         }
 
         @media (min-width: 640px) {
@@ -799,16 +794,15 @@
             width: 100%;
             align-items: center;
             justify-content: center;
-            padding: 0.95rem 1.5rem;
+            padding: 0.875rem 1.5rem;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             color: white;
             background: var(--brand-600);
             border: none;
-            border-radius: 0.85rem;
+            border-radius: 0.75rem;
             cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 12px 18px -10px rgba(147, 51, 234, 0.45);
+            transition: all 0.2s;
         }
 
         .mobile-submit-button:active:not(:disabled) {
@@ -817,13 +811,12 @@
 
         .mobile-submit-button:focus {
             outline: none;
-            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.22), 0 12px 18px -10px rgba(147, 51, 234, 0.45);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.5);
         }
 
         .mobile-submit-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            box-shadow: none;
         }
 
         .mobile-privacy {
@@ -850,24 +843,22 @@
             font-size: 0.875rem;
         }
 
-        /* ===== MESSAGES (card-like) ===== */
+        /* ===== MESSAGES ===== */
         .message {
-            border-radius: 1rem;
-            padding: 1rem 1.25rem;
-            font-size: 0.95rem;
-            box-shadow: 0 10px 25px -14px rgba(17, 24, 39, 0.25);
-            border: 1px solid transparent;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-size: 0.875rem;
         }
 
         .message-success {
             background: var(--green-50);
-            border-color: var(--green-200);
+            border: 1px solid var(--green-200);
             color: var(--green-800);
         }
 
         .message-error {
             background: var(--red-50);
-            border-color: var(--red-200);
+            border: 1px solid var(--red-200);
             color: var(--red-800);
         }
 
@@ -880,13 +871,12 @@
         .paywall-message {
             background: var(--amber-50);
             border: 1px solid var(--amber-200);
-            border-radius: 1rem;
+            border-radius: 0.75rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 25px -14px rgba(17, 24, 39, 0.25);
         }
 
         .paywall-title {
-            font-weight: 600;
+            font-weight: 500;
             color: var(--amber-900);
             margin-bottom: 1rem;
         }
@@ -902,10 +892,10 @@
             width: 100%;
             padding: 0.75rem 1rem;
             text-align: center;
-            font-weight: 600;
+            font-weight: 500;
             color: white;
             background: var(--brand-600);
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             text-decoration: none;
             transition: background 0.2s;
         }
@@ -958,27 +948,6 @@
             
             <div class="hero-buttons">
                 <a href="#start" class="btn-primary">Vyskúšať zadarmo</a>
-            </div>
-
-            <div class="hero-features">
-                <div class="hero-feature">
-                    <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Prvý follow-up zadarmo
-                </div>
-                <div class="hero-feature">
-                    <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Bez registrácie
-                </div>
-                <div class="hero-feature">
-                    <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Email za 30 sekúnd
-                </div>
             </div>
         </div>
     </section>
@@ -1310,14 +1279,11 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    // Build success message with remaining credits
                     let successMsg = result.message || 'Follow-up bol úspešne vytvorený a odoslaný na váš email!';
                     
-                    // Add remaining credits info if available
                     if (typeof result.remainingCredits !== 'undefined') {
                         successMsg += `<br><br><strong>Zostávajúce kredity: ${result.remainingCredits}</strong>`;
                         
-                        // Warning if credits are running low
                         if (result.remainingCredits === 0) {
                             successMsg += '<br><span style="color: var(--amber-900);">⚠️ Minuli ste všetky kredity.</span>';
                         } else if (result.remainingCredits <= 2) {
@@ -1325,7 +1291,6 @@
                         }
                     }
                     
-                    // Show if this was free trial
                     if (result.isFreeTrialUsed) {
                         successMsg += '<br><br><em style="color: var(--gray-600);">Toto bol váš bezplatný follow-up.</em>';
                     }
@@ -1411,10 +1376,8 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Form is visible - show sticky button
                         mobileSubmitBar.classList.add('visible');
                     } else {
-                        // Form is not visible - hide sticky button
                         mobileSubmitBar.classList.remove('visible');
                     }
                 });
