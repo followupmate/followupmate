@@ -964,6 +964,67 @@
   }
 }
 
+/* ===== Mobile timeline onboarding for How It Works ===== */
+@media (max-width: 640px) {
+
+  .steps-grid {
+    gap: 1.25rem;
+    position: relative;
+    padding-left: 1.75rem; /* miesto pre čiaru */
+  }
+
+  /* Vertikálna čiara */
+  .steps-grid::before {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      rgba(168, 85, 247, 0.25),
+      rgba(168, 85, 247, 0.05)
+    );
+    border-radius: 2px;
+  }
+
+  .step-card {
+    text-align: left;
+    padding: 1.25rem 1.25rem 1.25rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 6px 14px -10px rgba(17, 24, 39, 0.18);
+    position: relative;
+  }
+
+  /* Číslo ako kruh vľavo */
+  .step-number {
+    position: absolute;
+    left: -1.75rem;
+    top: 1.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background: var(--brand-100);
+    color: var(--brand-600);
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-description {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+}
+        
 </style>
 </head>
 <body>
