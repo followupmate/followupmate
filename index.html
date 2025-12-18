@@ -920,10 +920,35 @@
             animation: spin 1s linear infinite;
         }
 
-        .hidden {
-            display: none;
-        }
-    </style>
+.hidden {
+    display: none;
+}
+
+/* ===== Mobile spacing fix: Step 3 -> Form immediately ===== */
+@media (max-width: 640px) {
+  .how-it-works {
+    padding-bottom: 2.5rem;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .form-section {
+    padding-top: 2.5rem;
+  }
+
+  .form-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-title {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+}
+
+</style>
 </head>
 <body>
     
