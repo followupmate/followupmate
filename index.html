@@ -988,6 +988,118 @@
         </div>
     </section>
 
+    <!-- Form Section -->
+    <section id="start" class="form-section">
+        <div class="form-wrapper">
+            
+            <div class="form-header">
+                <h2 class="form-title">Vytvorte follow-up za pár sekúnd</h2>
+                <p class="form-subtitle">
+                    Popíšte situáciu. AI pripraví krátky, profesionálny follow-up, ktorý stačí odoslať.
+                </p>
+            </div>
+
+            <div class="form-card">
+                <form id="followupForm">
+                    
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Váš email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            required
+                            autocomplete="email"
+                            placeholder="vas.email@example.com"
+                            class="form-input"
+                        >
+                    </div>
+
+                    <!-- 2-column row (desktop) -->
+                    <div class="form-row">
+                        <!-- Language Field -->
+                        <div class="form-group">
+                            <label for="language" class="form-label">Jazyk follow-upu</label>
+                            <select id="language" name="language" required class="form-select">
+                                <option value="sk">Slovenčina</option>
+                                <option value="en">English</option>
+                                <option value="cs">Čeština</option>
+                                <option value="de">Deutsch</option>
+                                <option value="pl">Polski</option>
+                                <option value="hu">Magyar</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </div>
+
+                        <!-- Template Type Field -->
+                        <div class="form-group">
+                            <label for="template_type" class="form-label">Typ follow-upu</label>
+                            <select id="template_type" name="template_type" required class="form-select">
+                                <option value="generic">Všeobecný follow-up</option>
+                                <option value="meeting">Po stretnutí</option>
+                                <option value="quote">Po cenové ponuke</option>
+                                <option value="cold">Cold email follow-up</option>
+                                <option value="reminder">Pripomienka</option>
+                                <option value="thankyou">Poďakovanie</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Client Info Field -->
+                    <div class="form-group">
+                        <label for="client_info" class="form-label">Opíšte situáciu</label>
+                        <textarea 
+                            id="client_info" 
+                            name="client_info"
+                            required
+                            placeholder="stručne opíšte situáciu.."
+                            class="form-textarea"
+                        ></textarea>
+
+                    </div>
+
+                    <!-- Hidden fields -->
+                    <input type="hidden" name="name" value="User">
+                    <input type="hidden" name="client_name" value="">
+                    <input type="hidden" name="package" value="">
+
+                    <!-- Desktop Submit Button -->
+                    <button type="submit" id="submitBtn" class="form-submit">
+                        <span id="submitBtnText">Vytvoriť follow-up</span>
+                        <svg id="submitBtnSpinner" class="loading-spinner hidden" style="margin-left: 0.5rem; width: 1.25rem; height: 1.25rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Privacy Notice -->
+
+                <!-- Form Messages -->
+                <div id="formMessage"></div>
+
+                <!-- Mobile Submit Bar (inside form card, NOT floating) -->
+                <div class="mobile-submit-bar">
+                    <button type="submit" form="followupForm" id="submitBtnMobile" class="mobile-submit-button">
+                        <span id="submitBtnTextMobile">Vytvoriť follow-up</span>
+                        <svg id="submitBtnSpinnerMobile" class="loading-spinner hidden" style="margin-left: 0.5rem; width: 1.25rem; height: 1.25rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="form-footer">
+                <p class="form-footer-text">
+                    Prvý follow-up zadarmo. Žiadna registrácia.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    
     <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="section-container">
@@ -1122,117 +1234,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Form Section -->
-    <section id="start" class="form-section">
-        <div class="form-wrapper">
-            
-            <div class="form-header">
-                <h2 class="form-title">Vytvorte follow-up za pár sekúnd</h2>
-                <p class="form-subtitle">
-                    Popíšte situáciu. AI pripraví krátky, profesionálny follow-up, ktorý stačí odoslať.
-                </p>
-            </div>
-
-            <div class="form-card">
-                <form id="followupForm">
-                    
-                    <!-- Email Field -->
-                    <div class="form-group">
-                        <label for="email" class="form-label">Váš email</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email"
-                            required
-                            autocomplete="email"
-                            placeholder="vas.email@example.com"
-                            class="form-input"
-                        >
-                    </div>
-
-                    <!-- 2-column row (desktop) -->
-                    <div class="form-row">
-                        <!-- Language Field -->
-                        <div class="form-group">
-                            <label for="language" class="form-label">Jazyk follow-upu</label>
-                            <select id="language" name="language" required class="form-select">
-                                <option value="sk">Slovenčina</option>
-                                <option value="en">English</option>
-                                <option value="cs">Čeština</option>
-                                <option value="de">Deutsch</option>
-                                <option value="pl">Polski</option>
-                                <option value="hu">Magyar</option>
-                                <option value="es">Español</option>
-                            </select>
-                        </div>
-
-                        <!-- Template Type Field -->
-                        <div class="form-group">
-                            <label for="template_type" class="form-label">Typ follow-upu</label>
-                            <select id="template_type" name="template_type" required class="form-select">
-                                <option value="generic">Všeobecný follow-up</option>
-                                <option value="meeting">Po stretnutí</option>
-                                <option value="quote">Po cenové ponuke</option>
-                                <option value="cold">Cold email follow-up</option>
-                                <option value="reminder">Pripomienka</option>
-                                <option value="thankyou">Poďakovanie</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Client Info Field -->
-                    <div class="form-group">
-                        <label for="client_info" class="form-label">Opíšte situáciu</label>
-                        <textarea 
-                            id="client_info" 
-                            name="client_info"
-                            required
-                            placeholder="stručne opíšte situáciu.."
-                            class="form-textarea"
-                        ></textarea>
-
-                    </div>
-
-                    <!-- Hidden fields -->
-                    <input type="hidden" name="name" value="User">
-                    <input type="hidden" name="client_name" value="">
-                    <input type="hidden" name="package" value="">
-
-                    <!-- Desktop Submit Button -->
-                    <button type="submit" id="submitBtn" class="form-submit">
-                        <span id="submitBtnText">Vytvoriť follow-up</span>
-                        <svg id="submitBtnSpinner" class="loading-spinner hidden" style="margin-left: 0.5rem; width: 1.25rem; height: 1.25rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </button>
-
-                    <!-- Privacy Notice -->
-
-                <!-- Form Messages -->
-                <div id="formMessage"></div>
-
-                <!-- Mobile Submit Bar (inside form card, NOT floating) -->
-                <div class="mobile-submit-bar">
-                    <button type="submit" form="followupForm" id="submitBtnMobile" class="mobile-submit-button">
-                        <span id="submitBtnTextMobile">Vytvoriť follow-up</span>
-                        <svg id="submitBtnSpinnerMobile" class="loading-spinner hidden" style="margin-left: 0.5rem; width: 1.25rem; height: 1.25rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </button>
-            </div>
-
-            <!-- Additional Info -->
-            <div class="form-footer">
-                <p class="form-footer-text">
-                    Prvý follow-up zadarmo. Žiadna registrácia.
-                </p>
-            </div>
-
         </div>
     </section>
 
