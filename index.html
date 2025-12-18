@@ -110,15 +110,15 @@
             }
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO SECTION (UPDATED: Reduced bottom padding) ===== */
         .hero {
-            padding: 4rem 1rem 5rem;
+            padding: 4rem 1rem 2rem;
             background: linear-gradient(to bottom, var(--brand-50), white);
         }
 
         @media (min-width: 640px) {
             .hero {
-                padding: 6rem 1.5rem 8rem;
+                padding: 6rem 1.5rem 3rem;
             }
         }
 
@@ -251,15 +251,15 @@
             flex-shrink: 0;
         }
 
-        /* ===== HOW IT WORKS ===== */
+        /* ===== HOW IT WORKS (UPDATED: Integrated into hero with transparent cards) ===== */
         .how-it-works {
-            padding: 5rem 1rem;
-            background: white;
+            padding: 0 1rem 5rem;
+            background: transparent;
         }
 
         @media (min-width: 640px) {
             .how-it-works {
-                padding: 8rem 1.5rem;
+                padding: 0 1.5rem 8rem;
             }
         }
 
@@ -307,8 +307,24 @@
             }
         }
 
+        /* UPDATED: Glassmorphism card design */
         .step-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem;
             text-align: center;
+            position: relative;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .step-card:hover {
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 8px 16px rgba(147, 51, 234, 0.15);
+            transform: translateY(-2px);
         }
 
         .step-number {
@@ -871,7 +887,7 @@
         </div>
     </section>
 
-    <!-- How It Works -->
+    <!-- How It Works (Integrated with Hero) -->
     <section class="how-it-works">
         <div class="section-container">
             <div class="section-header">
