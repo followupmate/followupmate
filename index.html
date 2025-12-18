@@ -64,39 +64,43 @@
         }
 
         /* ===== HEADER ===== */
-        header {
-            position: sticky;
-            top: 0;
+header {
+    position: sticky;
+    top: 0;
 
-            /* UPDATED: smooth gradient matching hero (no hard edge) */
-            background: linear-gradient(
-                180deg,
-                var(--brand-50) 0%,
-                rgba(250, 245, 255, 0.85) 55%,
-                rgba(250, 245, 255, 0.35) 82%,
-                rgba(250, 245, 255, 0) 100%
-            );
+    /* FIX: plynulý prechod do HERO (dole je najviac brand-50) */
+    background: linear-gradient(
+        180deg,
+        rgba(250, 245, 255, 0.00) 0%,
+        rgba(250, 245, 255, 0.55) 35%,
+        rgba(250, 245, 255, 0.85) 70%,
+        var(--brand-50) 100%
+    );
 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+    /* fallback keby niekde gradient zlyhal */
+    background-color: var(--brand-50);
 
-            /* UPDATED: remove hard divider */
-            border-bottom: none;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 
-            z-index: 1000;
-        }
+    /* odstráni tvrdú čiaru */
+    border-bottom: none;
 
-        @media (min-width: 640px) {
-            header {
-                background: linear-gradient(
-                    180deg,
-                    var(--brand-50) 0%,
-                    rgba(250, 245, 255, 0.7) 65%,
-                    rgba(250, 245, 255, 0.25) 85%,
-                    rgba(250, 245, 255, 0) 100%
-                );
-            }
-        }
+    z-index: 1000;
+}
+
+@media (min-width: 640px) {
+    header {
+        background: linear-gradient(
+            180deg,
+            rgba(250, 245, 255, 0.00) 0%,
+            rgba(250, 245, 255, 0.45) 40%,
+            rgba(250, 245, 255, 0.75) 75%,
+            var(--brand-50) 100%
+        );
+        background-color: var(--brand-50);
+    }
+}
 
         .header-container {
             max-width: 80rem;
