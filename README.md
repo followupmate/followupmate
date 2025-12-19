@@ -85,7 +85,7 @@ FollowUpMate is a SaaS application that helps freelancers, salespeople, and smal
 - ✅ **Compact mobile design** (optimized spacing and font sizes)
 - ✅ **No emojis in UI** (clean, professional)
 
-### Mobile UX Optimization (December 19, 2024)
+### Mobile UX Optimization (December 19, 2025)
 - **Compact Form Layout:** Reduced padding and gaps (1.5rem card padding, 1.25rem gaps)
 - **Smaller Typography:** 14-15px inputs, 13px labels on mobile
 - **Reduced Textarea:** 140px height (was 180px)
@@ -196,7 +196,7 @@ STRIPE_WEBHOOK_SECRET=whsec_live_...
 
 ```
 followupmate/
-├── index.html              # Landing page (dark mode redesign Dec 19, 2024)
+├── index.html              # Landing page (dark mode redesign Dec 19, 2025)
 ├── api/
 │   ├── submit.js          # Main endpoint (multi-language email template)
 │   └── stripe-webhook.js  # Webhook handler (credit fulfillment)
@@ -321,7 +321,7 @@ package_type: starter (or business, pro)
 - **Domain:** followupmate.io
 - **DNS Records:** SPF, DKIM, DMARC configured via WebSupport
 
-### Email Template (Redesigned December 2024)
+### Email Template (Redesigned December 2025)
 
 **New Features:**
 - ✅ **Minimalist Design** - Purple gradient header, clean white card
@@ -364,9 +364,9 @@ package_type: starter (or business, pro)
 2. Deployments tab
 3. Click ⋯ → Redeploy
 
-### Recent Updates (December 2024)
+### Recent Updates (December 2025)
 ```bash
-# Deploy dark mode redesign (Dec 19, 2024)
+# Deploy dark mode redesign (Dec 19, 2025)
 git add index.html
 git commit -m "Dark mode: purple theme with glowing effects + compact mobile UX"
 git push origin main
@@ -458,9 +458,9 @@ git push origin main
 
 ---
 
-## 📝 Recent Updates (December 2024)
+## 📝 Recent Updates (December 2025)
 
-### Dark Mode Redesign (December 19, 2024)
+### Dark Mode Redesign (December 19, 2025)
 - ✅ **Complete dark theme** with deep purple/blue background (#0f0a1e)
 - ✅ **Glowing effects** on buttons, cards, and logo (purple shadows)
 - ✅ **Glassmorphism** with backdrop-blur on all cards
@@ -514,13 +514,13 @@ git push origin main
 
 ## 📄 License
 
-© 2024 FollowUpMate. All rights reserved.
+© 2025 FollowUpMate. All rights reserved.
 
 ---
 
 ## 🎯 Project Status: PRODUCTION READY ✅
 
-**Last Major Update:** December 19, 2024
+**Last Major Update:** December 19, 2025
 - Dark mode redesign with glowing purple effects
 - Compact mobile UX optimization
 - Professional appearance improvements
