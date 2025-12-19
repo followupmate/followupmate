@@ -58,9 +58,11 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // ==========================================
+      // ==========================================
     // CREDIT CHECKING
     // ==========================================
+    
+    console.log('🔍 STEP 1: Looking for user:', email);
     
     // 1. Get or create user
     let { data: user } = await supabase
@@ -69,8 +71,12 @@ module.exports = async function handler(req, res) {
       .eq('email', email)
       .single();
 
+    console.log('🔍 STEP 2: User found?', !!user);
+
     // New user - create with free trial available
     if (!user) {
+      console.log('🆕 STEP 3: Creating new user...');
+      
       const { data: newUser, error: createError } = await supabase
         .from('users')
         .insert({
@@ -82,18 +88,33 @@ module.exports = async function handler(req, res) {
         .select()
         .single();
 
+      console.log('🆕 STEP 4: User created?', !!newUser, 'Error?', !!createError);
+      
       if (createError) {
-        console.error('Failed to create user:', createError);
+        console.error('❌ Failed to create user:', createError);
         throw new Error('Chyba pri vytváraní používateľa');
       }
       user = newUser;
     }
 
+    console.log('👤 STEP 5: Final user state:', {
+      email: user.email,
+      credits: user.credits,
+      free_trial_used: user.free_trial_used
+    });
+
     // 2. Check if can use (free trial OR has credits)
     const canUseFree = !user.free_trial_used;
     const hasCredits = user.credits > 0;
 
+    console.log('💳 STEP 6: Credit check:', {
+      canUseFree,
+      hasCredits,
+      willShowPaywall: !canUseFree && !hasCredits
+    });
+
     if (!canUseFree && !hasCredits) {
+      console.log('❌ STEP 7: PAYWALL TRIGGERED');
       // ❌ PAYWALL - No credits and already used free trial
       return res.status(402).json({ 
         error: 'Nemáte dostatok kreditov',
@@ -102,6 +123,8 @@ module.exports = async function handler(req, res) {
         remainingCredits: 0
       });
     }
+
+    console.log('✅ STEP 8: Proceeding with generation...');
 
     // ==========================================
     // Generate follow-up
