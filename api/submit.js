@@ -97,7 +97,7 @@ module.exports = async function handler(req, res) {
       // ❌ PAYWALL - No credits and already used free trial
       return res.status(402).json({ 
         error: 'Nemáte dostatok kreditov',
-        message: 'Už ste použili bezplatný follow-up. Kúpte si credits.',
+        message: 'Už ste použili bezplatný follow-up. Kúpte si kredit.',
         needsPayment: true,
         remainingCredits: 0
       });
