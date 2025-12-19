@@ -51,7 +51,7 @@ FollowUpMate is a SaaS application that helps freelancers, salespeople, and smal
 
 ---
 
-## 🎨 Design System (December 2024 Update - Dark Mode)
+## 🎨 Design System (December 2025 Update - Dark Mode)
 
 ### Brand Colors (Dark Mode)
 ```css
