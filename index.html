@@ -1384,7 +1384,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-container">
-            <p class="footer-text">&copy; 2025 FollowUpMate. Všetky práva vyhradené.</p>
+            <p class="footer-text">&copy; 2024 FollowUpMate. Všetky práva vyhradené.</p>
         </div>
     </footer>
 
@@ -1422,18 +1422,22 @@
                 if (response.ok) {
                     let successMsg = result.message || 'Follow-up bol úspešne vytvorený a odoslaný na váš email!';
                     
-                    if (typeof result.remainingCredits !== 'undefined') {
-                        successMsg += `<br><br><strong>Zostávajúce kredity: ${result.remainingCredits}</strong>`;
+                    // Free trial user - special message
+                    if (result.isFreeTrialUsed) {
+                        successMsg = 'Follow-up bol úspešne vytvorený a odoslaný na váš email!';
+                        successMsg += '<br><br><strong>🎁 Toto bol váš bezplatný follow-up.</strong>';
+                        successMsg += '<br><br>Ďalšie follow-upy si môžete zakúpiť v sekcii <a href="#pricing" style="color: var(--purple-400); text-decoration: underline;">Cenník</a>.';
+                    } 
+                    // Paid user - show credits info
+                    else if (typeof result.remainingCredits !== 'undefined') {
+                        successMsg += '<br><br><strong>Zostávajúce kredity: ' + result.remainingCredits + '</strong>';
                         
                         if (result.remainingCredits === 0) {
                             successMsg += '<br><span style="color: #fde68a;">⚠️ Minuli ste všetky kredity.</span>';
+                            successMsg += '<br><a href="#pricing" style="color: var(--purple-400); text-decoration: underline;">Kúpiť ďalšie kredity</a>';
                         } else if (result.remainingCredits <= 2) {
                             successMsg += '<br><span style="color: #fde68a;">⚠️ Zostávajú vám len ' + result.remainingCredits + ' kredity.</span>';
                         }
-                    }
-                    
-                    if (result.isFreeTrialUsed) {
-                        successMsg += '<br><br><em style="color: var(--text-muted);">Toto bol váš bezplatný follow-up.</em>';
                     }
                     
                     showMessage('success', successMsg);
